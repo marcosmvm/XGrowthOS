@@ -9,9 +9,9 @@ interface GradientMeshProps {
 }
 
 const intensityMap = {
-  high: { opacity: 0.4, scale: 1.2 },
-  medium: { opacity: 0.3, scale: 1 },
-  low: { opacity: 0.15, scale: 0.9 },
+  high: { opacity: 0.25, scale: 1.2 },
+  medium: { opacity: 0.15, scale: 1 },
+  low: { opacity: 0.08, scale: 0.9 },
 }
 
 const blobs = [

@@ -1,8 +1,5 @@
 export { GradientMesh } from './gradient-mesh'
 export { FloatingOrbs } from './floating-orbs'
 export { GridPattern } from './grid-pattern'
-export { NetworkGrid } from './network-grid'
-export { TechGradient } from './tech-gradient'
-export { HexPattern } from './hex-pattern'
 export { HeroBackground } from './hero-background'
 export { SubtleBackground } from './subtle-background'

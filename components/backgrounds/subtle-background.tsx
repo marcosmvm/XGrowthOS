@@ -1,6 +1,6 @@
 'use client'
 
-import { TechGradient } from './tech-gradient'
+import { GradientMesh } from './gradient-mesh'
 import { GridPattern } from './grid-pattern'
 
 interface SubtleBackgroundProps {
@@ -16,20 +16,19 @@ export function SubtleBackground({ children, showOrb = false }: SubtleBackground
         {/* Base background */}
         <div className="absolute inset-0 bg-background" />
 
-        {/* Subtle gradient */}
-        <TechGradient variant="subtle" />
+        {/* Static gradient mesh with low intensity */}
+        <GradientMesh intensity="low" animated={false} />
 
-        {/* Clean dot grid */}
-        <GridPattern type="dots" spacing={35} opacity={0.03} />
+        {/* Very subtle grid */}
+        <GridPattern type="dots" spacing={40} opacity={0.03} />
 
-        {/* Optional accent glow for hero area */}
+        {/* Optional: Single static orb for hero area */}
         {showOrb && (
           <div
-            className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+            className="absolute -top-20 -right-20 w-96 h-96 rounded-full pointer-events-none"
             style={{
-              background: 'radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 60%)',
-              filter: 'blur(40px)',
-              transform: 'translate(20%, -30%)',
+              background: 'radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 70%)',
+              filter: 'blur(60px)',
             }}
           />
         )}
