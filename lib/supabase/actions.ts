@@ -37,6 +37,7 @@ export async function signUp(formData: FormData) {
       data: {
         full_name: fullName,
         company: company,
+        role: 'client', // Default role for new users
       },
       emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
     },

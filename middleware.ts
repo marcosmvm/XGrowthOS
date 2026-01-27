@@ -57,6 +57,17 @@ export async function middleware(request: NextRequest) {
         url.searchParams.set('redirectedFrom', request.nextUrl.pathname)
         return NextResponse.redirect(url)
       }
+
+      // Admin routes require admin role
+      if (request.nextUrl.pathname.startsWith('/admin')) {
+        const userRole = user.user_metadata?.role || 'client'
+        if (userRole !== 'admin') {
+          // Redirect non-admins to client dashboard
+          const url = request.nextUrl.clone()
+          url.pathname = '/dashboard'
+          return NextResponse.redirect(url)
+        }
+      }
     }
 
     // Redirect logged-in users away from auth pages
@@ -65,6 +76,13 @@ export async function middleware(request: NextRequest) {
         request.nextUrl.pathname === '/login' ||
         request.nextUrl.pathname === '/register'
       ) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
+
+      // Redirect authenticated users from homepage to dashboard
+      if (request.nextUrl.pathname === '/') {
         const url = request.nextUrl.clone()
         url.pathname = '/dashboard'
         return NextResponse.redirect(url)
