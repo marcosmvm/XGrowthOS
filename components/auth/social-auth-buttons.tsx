@@ -28,7 +28,9 @@ export function SocialAuthButtons({ redirectTo = '/dashboard' }: SocialAuthButto
       })
       if (error) throw error
     } catch (err) {
-      setError('Failed to sign in with Google. Please try again.')
+      console.error('[Google OAuth] Sign in failed:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+      setError(`Failed to sign in with Google: ${errorMessage}`)
       setIsGoogleLoading(false)
     }
   }
@@ -46,7 +48,9 @@ export function SocialAuthButtons({ redirectTo = '/dashboard' }: SocialAuthButto
       })
       if (error) throw error
     } catch (err) {
-      setError('Failed to sign in with GitHub. Please try again.')
+      console.error('[GitHub OAuth] Sign in failed:', err)
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error'
+      setError(`Failed to sign in with GitHub: ${errorMessage}`)
       setIsGitHubLoading(false)
     }
   }
