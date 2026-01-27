@@ -1,8 +1,8 @@
 'use client'
 
-import { GradientMesh } from './gradient-mesh'
-import { FloatingOrbs } from './floating-orbs'
-import { GridPattern } from './grid-pattern'
+import { NetworkGrid } from './network-grid'
+import { TechGradient } from './tech-gradient'
+import { HexPattern } from './hex-pattern'
 
 interface HeroBackgroundProps {
   children: React.ReactNode
@@ -11,22 +11,22 @@ interface HeroBackgroundProps {
 export function HeroBackground({ children }: HeroBackgroundProps) {
   return (
     <div className="relative">
-      {/* Background container - fixed for parallax-like effect */}
+      {/* Background container - fixed for seamless scrolling */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         {/* Base background */}
         <div className="absolute inset-0 bg-background" />
 
-        {/* Layer 1: Animated gradient mesh */}
-        <GradientMesh intensity="medium" animated />
+        {/* Layer 1: Subtle gradient orbs for depth */}
+        <TechGradient variant="hero" />
 
-        {/* Layer 2: Floating orbs */}
-        <FloatingOrbs count={4} opacity={0.25} blur={80} />
+        {/* Layer 2: Hexagonal pattern - tech/AI feel */}
+        <HexPattern opacity={0.04} />
 
-        {/* Layer 3: Grid pattern overlay */}
-        <GridPattern type="dots" spacing={30} opacity={0.06} />
+        {/* Layer 3: Animated network grid - neural network effect */}
+        <NetworkGrid intensity="high" animated />
 
-        {/* Fade to background at bottom for smooth transition */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent" />
+        {/* Bottom fade for content transition */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
       </div>
 
       {/* Content */}
