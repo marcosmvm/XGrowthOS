@@ -1,14 +1,17 @@
 'use client'
 
+import { useState, useCallback } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Check, X, Minus, Pause, Play, FlaskConical, TrendingUp, AlertCircle, Mail, Calendar, Users, Target } from 'lucide-react'
+import { ArrowLeft, Check, X, Minus, Pause, Play, FlaskConical, TrendingUp, AlertCircle, Mail, Calendar, Users, Target, Download, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
-import { getCampaignById, mockCampaigns } from '@/lib/data/dashboard'
+import { getCampaignById } from '@/lib/data/dashboard'
 import { cn } from '@/lib/utils'
 import { format, parseISO } from 'date-fns'
+import { useToastActions } from '@/components/ui/toast'
+import { campaignWorkflows } from '@/lib/n8n/client'
 
 export default function CampaignDetailPage({
   params,
@@ -16,7 +19,64 @@ export default function CampaignDetailPage({
   params: { id: string }
 }) {
   const { id } = params
-  const campaign = getCampaignById(id)
+  const [campaignData, setCampaignData] = useState(() => getCampaignById(id))
+  const [isPausing, setIsPausing] = useState(false)
+  const [isResuming, setIsResuming] = useState(false)
+  const [isExporting, setIsExporting] = useState(false)
+  const toast = useToastActions()
+
+  const campaign = campaignData
+
+  const handlePause = useCallback(async () => {
+    setIsPausing(true)
+    try {
+      const result = await campaignWorkflows.pause(id)
+      if (result.success) {
+        setCampaignData(prev => prev ? { ...prev, status: 'paused' as const } : prev)
+        toast.success('Campaign paused', 'The campaign has been paused successfully')
+      } else {
+        toast.error('Failed to pause', result.error || 'Could not pause campaign')
+      }
+    } catch {
+      toast.error('Failed to pause', 'An unexpected error occurred')
+    } finally {
+      setIsPausing(false)
+    }
+  }, [id, toast])
+
+  const handleResume = useCallback(async () => {
+    setIsResuming(true)
+    try {
+      const result = await campaignWorkflows.resume(id)
+      if (result.success) {
+        setCampaignData(prev => prev ? { ...prev, status: 'active' as const } : prev)
+        toast.success('Campaign resumed', 'The campaign is now active')
+      } else {
+        toast.error('Failed to resume', result.error || 'Could not resume campaign')
+      }
+    } catch {
+      toast.error('Failed to resume', 'An unexpected error occurred')
+    } finally {
+      setIsResuming(false)
+    }
+  }, [id, toast])
+
+  const handleExportCSV = useCallback(async () => {
+    setIsExporting(true)
+    try {
+      const result = await campaignWorkflows.exportCSV(id)
+      if (result.success && result.data?.downloadUrl) {
+        window.open(result.data.downloadUrl, '_blank')
+        toast.success('Export ready', 'Your CSV download has started')
+      } else {
+        toast.error('Export failed', result.error || 'Could not export campaign data')
+      }
+    } catch {
+      toast.error('Export failed', 'An unexpected error occurred')
+    } finally {
+      setIsExporting(false)
+    }
+  }, [id, toast])
 
   if (!campaign) {
     return (
@@ -75,15 +135,46 @@ export default function CampaignDetailPage({
           </p>
         </div>
         <div className="flex gap-2">
+          <Button
+            variant="outline"
+            className="gap-2"
+            onClick={handleExportCSV}
+            disabled={isExporting}
+          >
+            {isExporting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4" />
+            )}
+            Export CSV
+          </Button>
           {campaign.status === 'active' && (
-            <Button variant="outline" className="gap-2">
-              <Pause className="w-4 h-4" />
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={handlePause}
+              disabled={isPausing}
+            >
+              {isPausing ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Pause className="w-4 h-4" />
+              )}
               Pause
             </Button>
           )}
           {campaign.status === 'paused' && (
-            <Button variant="outline" className="gap-2">
-              <Play className="w-4 h-4" />
+            <Button
+              variant="outline"
+              className="gap-2"
+              onClick={handleResume}
+              disabled={isResuming}
+            >
+              {isResuming ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Play className="w-4 h-4" />
+              )}
               Resume
             </Button>
           )}

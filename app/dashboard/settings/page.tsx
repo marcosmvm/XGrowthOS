@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
 import {
   Loader2,
@@ -10,8 +10,6 @@ import {
   Users,
   Puzzle,
   CreditCard,
-  Check,
-  X,
   Plus,
   ExternalLink,
   Shield,
@@ -20,15 +18,16 @@ import {
   Phone,
   Globe,
   Trash2,
-  MoreHorizontal,
   CheckCircle2,
-  AlertCircle
+  Copy
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Switch } from '@/components/ui/switch'
 import { cn } from '@/lib/utils'
+import { useToastActions } from '@/components/ui/toast'
+import { settingsWorkflows } from '@/lib/n8n/client'
 
 // Mock data for team members
 const teamMembers = [
@@ -84,6 +83,12 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('profile')
   const [profileLoading, setProfileLoading] = useState(false)
   const [inviteEmail, setInviteEmail] = useState('')
+  const [inviteLoading, setInviteLoading] = useState(false)
+  const [removingMember, setRemovingMember] = useState<string | null>(null)
+  const [regeneratingKey, setRegeneratingKey] = useState(false)
+  const [apiKey, setApiKey] = useState('xg_live_••••••••••••••••')
+  const toast = useToastActions()
+  const formRef = useRef<HTMLFormElement>(null)
 
   // Notification preferences state
   const [notifications, setNotifications] = useState({
@@ -98,15 +103,112 @@ export default function SettingsPage() {
   const handleProfileSave = async (e: React.FormEvent) => {
     e.preventDefault()
     setProfileLoading(true)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setProfileLoading(false)
+    try {
+      const formData = new FormData(e.target as HTMLFormElement)
+      const result = await settingsWorkflows.updateProfile({
+        name: formData.get('name') as string,
+        company: formData.get('company') as string,
+        phone: formData.get('phone') as string,
+        website: formData.get('website') as string,
+      })
+      if (result.success) {
+        toast.success('Profile updated', 'Your profile has been saved')
+      } else {
+        toast.error('Update failed', result.error || 'Could not save profile')
+      }
+    } catch {
+      toast.error('Update failed', 'An unexpected error occurred')
+    } finally {
+      setProfileLoading(false)
+    }
   }
+
+  const handleNotificationChange = useCallback(async (key: keyof typeof notifications, checked: boolean) => {
+    const newNotifications = { ...notifications, [key]: checked }
+    setNotifications(newNotifications)
+    try {
+      const result = await settingsWorkflows.updateNotificationPrefs(newNotifications)
+      if (result.success) {
+        toast.success('Preferences saved', 'Notification settings updated')
+      } else {
+        toast.error('Save failed', result.error || 'Could not update preferences')
+        setNotifications({ ...notifications })
+      }
+    } catch {
+      toast.error('Save failed', 'An unexpected error occurred')
+      setNotifications({ ...notifications })
+    }
+  }, [notifications, toast])
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle invite logic
-    setInviteEmail('')
+    if (!inviteEmail) return
+    setInviteLoading(true)
+    try {
+      const result = await settingsWorkflows.inviteTeamMember(inviteEmail, 'Member')
+      if (result.success) {
+        toast.success('Invitation sent', `${inviteEmail} has been invited`)
+        setInviteEmail('')
+      } else {
+        toast.error('Invite failed', result.error || 'Could not send invitation')
+      }
+    } catch {
+      toast.error('Invite failed', 'An unexpected error occurred')
+    } finally {
+      setInviteLoading(false)
+    }
   }
+
+  const handleRemoveMember = useCallback(async (memberId: string, memberName: string) => {
+    setRemovingMember(memberId)
+    try {
+      const result = await settingsWorkflows.removeTeamMember(memberId)
+      if (result.success) {
+        toast.success('Member removed', `${memberName} has been removed from the team`)
+      } else {
+        toast.error('Remove failed', result.error || 'Could not remove member')
+      }
+    } catch {
+      toast.error('Remove failed', 'An unexpected error occurred')
+    } finally {
+      setRemovingMember(null)
+    }
+  }, [toast])
+
+  const handleRegenerateApiKey = useCallback(async () => {
+    setRegeneratingKey(true)
+    try {
+      const result = await settingsWorkflows.regenerateApiKey()
+      if (result.success && result.data?.apiKey) {
+        setApiKey(result.data.apiKey)
+        toast.success('API key regenerated', 'Your new API key is ready')
+      } else {
+        toast.error('Regeneration failed', result.error || 'Could not regenerate API key')
+      }
+    } catch {
+      toast.error('Regeneration failed', 'An unexpected error occurred')
+    } finally {
+      setRegeneratingKey(false)
+    }
+  }, [toast])
+
+  const handleCopyApiKey = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(apiKey)
+      toast.success('Copied', 'API key copied to clipboard')
+    } catch {
+      toast.error('Copy failed', 'Could not copy to clipboard')
+    }
+  }, [apiKey, toast])
+
+  const handleConnectIntegration = useCallback((integrationName: string) => {
+    toast.info('Coming soon', `${integrationName} integration will be available soon`)
+  }, [toast])
+
+  const handleManageSubscription = useCallback(() => {
+    window.open('https://billing.stripe.com/p/login/test', '_blank')
+    toast.info('Opening Stripe', 'Redirecting to billing portal')
+  }, [toast])
 
   return (
     <div className="space-y-6">
@@ -306,7 +408,7 @@ export default function SettingsPage() {
                     </div>
                     <Switch
                       checked={notifications.weeklyReports}
-                      onCheckedChange={(checked) => setNotifications({ ...notifications, weeklyReports: checked })}
+                      onCheckedChange={(checked) => handleNotificationChange('weeklyReports', checked)}
                     />
                   </div>
                   <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
@@ -316,7 +418,7 @@ export default function SettingsPage() {
                     </div>
                     <Switch
                       checked={notifications.meetingBooked}
-                      onCheckedChange={(checked) => setNotifications({ ...notifications, meetingBooked: checked })}
+                      onCheckedChange={(checked) => handleNotificationChange('meetingBooked', checked)}
                     />
                   </div>
                   <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
@@ -326,7 +428,7 @@ export default function SettingsPage() {
                     </div>
                     <Switch
                       checked={notifications.campaignAlerts}
-                      onCheckedChange={(checked) => setNotifications({ ...notifications, campaignAlerts: checked })}
+                      onCheckedChange={(checked) => handleNotificationChange('campaignAlerts', checked)}
                     />
                   </div>
                   <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
@@ -336,7 +438,7 @@ export default function SettingsPage() {
                     </div>
                     <Switch
                       checked={notifications.domainAlerts}
-                      onCheckedChange={(checked) => setNotifications({ ...notifications, domainAlerts: checked })}
+                      onCheckedChange={(checked) => handleNotificationChange('domainAlerts', checked)}
                     />
                   </div>
                   <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
@@ -346,7 +448,7 @@ export default function SettingsPage() {
                     </div>
                     <Switch
                       checked={notifications.optimizationTips}
-                      onCheckedChange={(checked) => setNotifications({ ...notifications, optimizationTips: checked })}
+                      onCheckedChange={(checked) => handleNotificationChange('optimizationTips', checked)}
                     />
                   </div>
                   <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg">
@@ -356,7 +458,7 @@ export default function SettingsPage() {
                     </div>
                     <Switch
                       checked={notifications.dailyDigest}
-                      onCheckedChange={(checked) => setNotifications({ ...notifications, dailyDigest: checked })}
+                      onCheckedChange={(checked) => handleNotificationChange('dailyDigest', checked)}
                     />
                   </div>
                 </div>
@@ -388,7 +490,10 @@ export default function SettingsPage() {
                         <p className="text-xs text-muted-foreground">Sync with Google Workspace</p>
                       </div>
                     </div>
-                    <button className="w-full px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                    <button
+                      onClick={() => handleConnectIntegration('Google Calendar')}
+                      className="w-full px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                    >
                       Connect
                     </button>
                   </div>
@@ -402,7 +507,10 @@ export default function SettingsPage() {
                         <p className="text-xs text-muted-foreground">Sync with Microsoft 365</p>
                       </div>
                     </div>
-                    <button className="w-full px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                    <button
+                      onClick={() => handleConnectIntegration('Microsoft Outlook')}
+                      className="w-full px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors"
+                    >
                       Connect
                     </button>
                   </div>
@@ -419,7 +527,10 @@ export default function SettingsPage() {
                           <p className="text-sm text-muted-foreground">calendly.com/john-smith</p>
                         </div>
                       </div>
-                      <button className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg transition-colors">
+                      <button
+                        onClick={() => window.open('https://calendly.com', '_blank')}
+                        className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg transition-colors"
+                      >
                         Manage
                       </button>
                     </div>
@@ -481,9 +592,14 @@ export default function SettingsPage() {
                   />
                   <button
                     type="submit"
-                    className="px-4 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center gap-2"
+                    disabled={inviteLoading}
+                    className="px-4 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 disabled:opacity-50"
                   >
-                    <Plus className="w-4 h-4" />
+                    {inviteLoading ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Plus className="w-4 h-4" />
+                    )}
                     Invite
                   </button>
                 </form>
@@ -512,8 +628,16 @@ export default function SettingsPage() {
                           <option selected={member.role === 'Member'}>Member</option>
                           <option>Viewer</option>
                         </select>
-                        <button className="p-2 hover:bg-muted rounded-lg transition-colors text-muted-foreground hover:text-destructive">
-                          <Trash2 className="w-4 h-4" />
+                        <button
+                          onClick={() => handleRemoveMember(member.id, member.name)}
+                          disabled={removingMember === member.id}
+                          className="p-2 hover:bg-muted rounded-lg transition-colors text-muted-foreground hover:text-destructive disabled:opacity-50"
+                        >
+                          {removingMember === member.id ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="w-4 h-4" />
+                          )}
                         </button>
                       </div>
                     </div>
@@ -567,12 +691,18 @@ export default function SettingsPage() {
                               <span className="text-muted-foreground">· {integration.lastSync}</span>
                             )}
                           </div>
-                          <button className="px-3 py-1.5 text-sm font-medium hover:bg-muted rounded-lg transition-colors">
+                          <button
+                            onClick={() => handleConnectIntegration(integration.name)}
+                            className="px-3 py-1.5 text-sm font-medium hover:bg-muted rounded-lg transition-colors"
+                          >
                             Manage
                           </button>
                         </div>
                       ) : (
-                        <button className="w-full px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                        <button
+                          onClick={() => handleConnectIntegration(integration.name)}
+                          className="w-full px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
+                        >
                           Connect
                         </button>
                       )}
@@ -598,13 +728,24 @@ export default function SettingsPage() {
                 <div className="p-4 bg-muted/30 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
                     <p className="font-medium">API Key</p>
-                    <button className="text-sm text-primary hover:underline">Regenerate</button>
+                    <button
+                      onClick={handleRegenerateApiKey}
+                      disabled={regeneratingKey}
+                      className="text-sm text-primary hover:underline disabled:opacity-50 flex items-center gap-1"
+                    >
+                      {regeneratingKey && <Loader2 className="w-3 h-3 animate-spin" />}
+                      Regenerate
+                    </button>
                   </div>
                   <div className="flex items-center gap-2">
                     <code className="flex-1 px-4 py-2 bg-background rounded-lg border border-border text-sm font-mono">
-                      xg_live_••••••••••••••••
+                      {apiKey}
                     </code>
-                    <button className="px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                    <button
+                      onClick={handleCopyApiKey}
+                      className="px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors flex items-center gap-2"
+                    >
+                      <Copy className="w-4 h-4" />
                       Copy
                     </button>
                   </div>
@@ -650,7 +791,10 @@ export default function SettingsPage() {
                       <p className="text-sm text-muted-foreground">Next billing date</p>
                       <p className="font-medium">February 1, 2026</p>
                     </div>
-                    <button className="px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                    <button
+                      onClick={handleManageSubscription}
+                      className="px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors"
+                    >
                       Manage Subscription
                     </button>
                   </div>
@@ -681,7 +825,10 @@ export default function SettingsPage() {
                       <p className="text-sm text-muted-foreground">Expires 12/27</p>
                     </div>
                   </div>
-                  <button className="px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
+                  <button
+                    onClick={handleManageSubscription}
+                    className="px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors"
+                  >
                     Update
                   </button>
                 </div>

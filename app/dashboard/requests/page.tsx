@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { MessageSquare, Pause, Play, FileText, Calendar, PenLine, Upload, CheckCircle, Clock, AlertCircle, Zap, Plus } from 'lucide-react'
+import { useState, useCallback } from 'react'
+import { Pause, Play, FileText, Calendar, PenLine, Upload, CheckCircle, Clock, AlertCircle, Zap, Plus, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -16,6 +16,8 @@ import {
 import { cn } from '@/lib/utils'
 import { mockRequests, getPendingRequests } from '@/lib/data/dashboard'
 import { format, parseISO, formatDistanceToNow } from 'date-fns'
+import { useToastActions } from '@/components/ui/toast'
+import { requestWorkflows } from '@/lib/n8n/client'
 
 const quickActions = [
   {
@@ -83,6 +85,46 @@ const typeLabels: Record<string, string> = {
 }
 
 export default function RequestsPage() {
+  const [activeAction, setActiveAction] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const toast = useToastActions()
+
+  const handleQuickAction = useCallback(async (actionId: string, actionLabel: string) => {
+    setActiveAction(actionId)
+    try {
+      const result = await requestWorkflows.quickAction(actionId)
+      if (result.success) {
+        toast.success(`${actionLabel} initiated`, 'Your request is being processed')
+      } else {
+        toast.error('Action failed', result.error || `Could not perform ${actionLabel}`)
+      }
+    } catch {
+      toast.error('Action failed', 'An unexpected error occurred')
+    } finally {
+      setActiveAction(null)
+    }
+  }, [toast])
+
+  const handleNewRequest = useCallback(async () => {
+    setIsSubmitting(true)
+    try {
+      const result = await requestWorkflows.submit({
+        type: 'other',
+        title: 'New Request',
+        description: 'Custom request submitted via portal'
+      })
+      if (result.success) {
+        toast.success('Request submitted', 'Your request has been added to the queue')
+      } else {
+        toast.error('Submission failed', result.error || 'Could not submit request')
+      }
+    } catch {
+      toast.error('Submission failed', 'An unexpected error occurred')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }, [toast])
+
   const pendingRequests = getPendingRequests()
   const completedRequests = mockRequests.filter(r => r.status === 'completed')
   const avgProcessingTime = completedRequests.reduce((sum, r) => sum + (r.processingTime || 0), 0) / completedRequests.length
@@ -95,8 +137,16 @@ export default function RequestsPage() {
           <h1 className="text-2xl font-bold tracking-tight">Self-Serve Requests</h1>
           <p className="text-muted-foreground">Submit requests and track their status</p>
         </div>
-        <Button className="gap-2">
-          <Plus className="w-4 h-4" />
+        <Button
+          className="gap-2"
+          onClick={handleNewRequest}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Plus className="w-4 h-4" />
+          )}
           New Request
         </Button>
       </div>
@@ -115,12 +165,18 @@ export default function RequestsPage() {
             {quickActions.map((action) => (
               <button
                 key={action.id}
+                onClick={() => handleQuickAction(action.id, action.label)}
+                disabled={activeAction === action.id}
                 className={cn(
-                  "flex flex-col items-center gap-2 p-4 rounded-xl transition-colors",
+                  "flex flex-col items-center gap-2 p-4 rounded-xl transition-colors disabled:opacity-50",
                   action.color
                 )}
               >
-                <action.icon className="w-6 h-6" />
+                {activeAction === action.id ? (
+                  <Loader2 className="w-6 h-6 animate-spin" />
+                ) : (
+                  <action.icon className="w-6 h-6" />
+                )}
                 <span className="text-sm font-medium text-center">{action.label}</span>
                 {action.type === 'review' && (
                   <Badge variant="outline" className="text-[10px]">Review Required</Badge>

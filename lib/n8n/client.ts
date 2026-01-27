@@ -150,3 +150,114 @@ export const workflows = {
     revenue?: string
   }) => callWorkflow('demo-request', data),
 }
+
+// ============================================
+// Client Portal Dashboard Workflows
+// ============================================
+
+/**
+ * Fetch dashboard metrics (Engine F: Client Dashboards)
+ */
+export const fetchDashboardMetrics = (clientId: string) =>
+  callWorkflow('dashboard-metrics', { clientId })
+
+/**
+ * Campaign Management (Engine A: Campaign Optimizer)
+ */
+export const campaignWorkflows = {
+  pause: (campaignId: string) =>
+    callWorkflow('campaign-pause', { campaignId }),
+
+  resume: (campaignId: string) =>
+    callWorkflow('campaign-resume', { campaignId }),
+
+  exportCSV: (campaignId: string) =>
+    callWorkflow<{ downloadUrl: string }>('campaign-export', { campaignId }),
+}
+
+/**
+ * Meetings export
+ */
+export const meetingsWorkflows = {
+  exportCSV: (clientId: string, filters?: { status?: string; dateRange?: string }) =>
+    callWorkflow<{ downloadUrl: string }>('meetings-export', { clientId, ...filters }),
+}
+
+/**
+ * Visitor Management (Engine H: The Sentinel)
+ */
+export const visitorWorkflows = {
+  addToCampaign: (visitorId: string, campaignId: string) =>
+    callWorkflow('visitor-add-to-campaign', { visitorId, campaignId }),
+
+  ignore: (visitorId: string) =>
+    callWorkflow('visitor-ignore', { visitorId }),
+}
+
+/**
+ * Domain Health Check (Engine D: Domain Health)
+ */
+export const domainWorkflows = {
+  runHealthCheck: (clientId: string) =>
+    callWorkflow('domain-health-check', { clientId }),
+}
+
+/**
+ * Reports (Engine I: The Informant)
+ */
+export const reportWorkflows = {
+  download: (reportId: string) =>
+    callWorkflow<{ downloadUrl: string }>('report-download', { reportId }),
+
+  share: (reportId: string, email: string) =>
+    callWorkflow('report-share', { reportId, email }),
+}
+
+/**
+ * Self-Serve Requests (Engine N: The Navigator)
+ */
+export const requestWorkflows = {
+  submit: (data: {
+    type: string
+    title: string
+    description: string
+    metadata?: Record<string, unknown>
+  }) => callWorkflow('request-submit', data),
+
+  quickAction: (actionType: string, metadata?: Record<string, unknown>) =>
+    callWorkflow('quick-action', { actionType, ...metadata }),
+}
+
+/**
+ * Settings & Profile Management
+ */
+export const settingsWorkflows = {
+  updateProfile: (data: {
+    name?: string
+    company?: string
+    phone?: string
+    website?: string
+    avatar?: string
+  }) => callWorkflow('profile-update', data),
+
+  updateNotificationPrefs: (prefs: {
+    weeklyReports?: boolean
+    campaignAlerts?: boolean
+    meetingBooked?: boolean
+    dailyDigest?: boolean
+    domainAlerts?: boolean
+    optimizationTips?: boolean
+  }) => callWorkflow('notification-prefs-update', prefs),
+
+  inviteTeamMember: (email: string, role: string) =>
+    callWorkflow('team-invite', { email, role }),
+
+  removeTeamMember: (memberId: string) =>
+    callWorkflow('team-remove', { memberId }),
+
+  updateMemberRole: (memberId: string, role: string) =>
+    callWorkflow('team-role-update', { memberId, role }),
+
+  regenerateApiKey: () =>
+    callWorkflow<{ apiKey: string }>('api-key-regenerate', {}),
+}

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Users, Flame, Building2, Globe, Clock, ExternalLink, UserPlus, Eye, Filter, Zap } from 'lucide-react'
+import { useState, useCallback } from 'react'
+import { Users, Flame, Building2, Globe, Clock, ExternalLink, UserPlus, Eye, Filter, Zap, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -13,8 +13,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
-import { mockVisitors, getHighIntentVisitors } from '@/lib/data/dashboard'
-import { format, parseISO, formatDistanceToNow } from 'date-fns'
+import { mockVisitors, getHighIntentVisitors, WebsiteVisitor } from '@/lib/data/dashboard'
+import { formatDistanceToNow, parseISO } from 'date-fns'
+import { useToastActions } from '@/components/ui/toast'
+import { visitorWorkflows } from '@/lib/n8n/client'
 
 const intentConfig = {
   high: { color: 'text-orange-500', bg: 'bg-orange-500/10', icon: Flame },
@@ -25,12 +27,40 @@ const intentConfig = {
 export default function VisitorsPage() {
   const [intentFilter, setIntentFilter] = useState<string>('all')
   const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [visitors, setVisitors] = useState<WebsiteVisitor[]>(mockVisitors)
+  const [addingToCampaign, setAddingToCampaign] = useState<string | null>(null)
+  const toast = useToastActions()
+
+  const handleAddToCampaign = useCallback(async (visitorId: string, companyName: string) => {
+    setAddingToCampaign(visitorId)
+    try {
+      const result = await visitorWorkflows.addToCampaign(visitorId, 'default')
+      if (result.success) {
+        setVisitors(prev =>
+          prev.map(v =>
+            v.id === visitorId ? { ...v, status: 'pushed_to_campaign' as const } : v
+          )
+        )
+        toast.success('Added to campaign', `${companyName} has been added to your campaign`)
+      } else {
+        toast.error('Failed to add', result.error || 'Could not add visitor to campaign')
+      }
+    } catch {
+      toast.error('Failed to add', 'An unexpected error occurred')
+    } finally {
+      setAddingToCampaign(null)
+    }
+  }, [toast])
+
+  const handleOpenLinkedIn = useCallback((linkedInUrl: string) => {
+    window.open(linkedInUrl, '_blank', 'noopener,noreferrer')
+  }, [])
 
   const highIntentVisitors = getHighIntentVisitors()
-  const totalCompanies = mockVisitors.length
-  const pushedToCampaign = mockVisitors.filter(v => v.status === 'pushed_to_campaign').length
+  const totalCompanies = visitors.length
+  const pushedToCampaign = visitors.filter(v => v.status === 'pushed_to_campaign').length
 
-  const filteredVisitors = mockVisitors.filter(v => {
+  const filteredVisitors = visitors.filter(v => {
     if (intentFilter !== 'all' && v.intentScore !== intentFilter) return false
     if (statusFilter !== 'all' && v.status !== statusFilter) return false
     return true
@@ -197,8 +227,17 @@ export default function VisitorsPage() {
                       </div>
                       <div className="flex items-center gap-2">
                         {visitor.status === 'new' && (
-                          <Button size="sm" className="gap-1">
-                            <UserPlus className="w-4 h-4" />
+                          <Button
+                            size="sm"
+                            className="gap-1"
+                            onClick={() => handleAddToCampaign(visitor.id, visitor.companyName)}
+                            disabled={addingToCampaign === visitor.id}
+                          >
+                            {addingToCampaign === visitor.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <UserPlus className="w-4 h-4" />
+                            )}
                             Add to Campaign
                           </Button>
                         )}
@@ -266,7 +305,12 @@ export default function VisitorsPage() {
                                 <p className="text-sm text-muted-foreground">{contact.title}</p>
                               </div>
                               {contact.linkedIn && (
-                                <Button variant="ghost" size="sm" className="shrink-0">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="shrink-0"
+                                  onClick={() => handleOpenLinkedIn(contact.linkedIn!)}
+                                >
                                   <ExternalLink className="w-4 h-4" />
                                 </Button>
                               )}

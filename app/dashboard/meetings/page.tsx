@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { Calendar, Download, Building2, User, Clock, CheckCircle, XCircle, AlertCircle, Filter } from 'lucide-react'
+import { useState, useCallback } from 'react'
+import { Calendar, Download, Building2, User, Clock, CheckCircle, XCircle, AlertCircle, Filter, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -22,6 +22,8 @@ import {
 } from '@/components/ui/select'
 import { mockMeetings, getUpcomingMeetings } from '@/lib/data/dashboard'
 import { format, parseISO, isToday, isTomorrow } from 'date-fns'
+import { useToastActions } from '@/components/ui/toast'
+import { meetingsWorkflows } from '@/lib/n8n/client'
 
 function formatMeetingDate(dateStr: string): string {
   const date = parseISO(dateStr)
@@ -44,6 +46,25 @@ const statusConfig = {
 
 export default function MeetingsPage() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
+  const [isExporting, setIsExporting] = useState(false)
+  const toast = useToastActions()
+
+  const handleExportCSV = useCallback(async () => {
+    setIsExporting(true)
+    try {
+      const result = await meetingsWorkflows.exportCSV('current', { status: statusFilter })
+      if (result.success && result.data?.downloadUrl) {
+        window.open(result.data.downloadUrl, '_blank')
+        toast.success('Export ready', 'Your CSV download has started')
+      } else {
+        toast.error('Export failed', result.error || 'Could not export meetings data')
+      }
+    } catch {
+      toast.error('Export failed', 'An unexpected error occurred')
+    } finally {
+      setIsExporting(false)
+    }
+  }, [statusFilter, toast])
 
   const upcomingMeetings = getUpcomingMeetings()
   const pastMeetings = mockMeetings.filter(m => m.status !== 'scheduled')
@@ -65,8 +86,17 @@ export default function MeetingsPage() {
           <h1 className="text-2xl font-bold tracking-tight">Meetings</h1>
           <p className="text-muted-foreground">Track all your booked meetings and their outcomes</p>
         </div>
-        <Button variant="outline" className="gap-2">
-          <Download className="w-4 h-4" />
+        <Button
+          variant="outline"
+          className="gap-2"
+          onClick={handleExportCSV}
+          disabled={isExporting}
+        >
+          {isExporting ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Download className="w-4 h-4" />
+          )}
           Export CSV
         </Button>
       </div>

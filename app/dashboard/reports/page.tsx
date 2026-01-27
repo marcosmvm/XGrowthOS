@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import {
   Download,
@@ -12,12 +12,12 @@ import {
   Minus,
   Star,
   Lightbulb,
-  AlertTriangle,
   CheckCircle2,
   Clock,
   FileText,
   Filter,
-  Search
+  Search,
+  Loader2
 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -30,6 +30,8 @@ import {
 } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { mockReports } from '@/lib/data/dashboard'
+import { useToastActions } from '@/components/ui/toast'
+import { reportWorkflows } from '@/lib/n8n/client'
 
 function formatDateRange(start: string, end: string) {
   const startDate = new Date(start)
@@ -80,7 +82,43 @@ function TrendIndicator({ value, suffix = '%' }: { value: number; suffix?: strin
 export default function ReportsPage() {
   const [filter, setFilter] = useState<'all' | 'recent'>('all')
   const [search, setSearch] = useState('')
+  const [downloadingReport, setDownloadingReport] = useState<string | null>(null)
+  const [sharingReport, setSharingReport] = useState<string | null>(null)
+  const toast = useToastActions()
   const [latestReport, ...previousReports] = mockReports
+
+  const handleDownloadReport = useCallback(async (reportId: string) => {
+    setDownloadingReport(reportId)
+    try {
+      const result = await reportWorkflows.download(reportId)
+      if (result.success && result.data?.downloadUrl) {
+        window.open(result.data.downloadUrl, '_blank')
+        toast.success('Download started', 'Your report PDF is downloading')
+      } else {
+        toast.error('Download failed', result.error || 'Could not download report')
+      }
+    } catch {
+      toast.error('Download failed', 'An unexpected error occurred')
+    } finally {
+      setDownloadingReport(null)
+    }
+  }, [toast])
+
+  const handleShareReport = useCallback(async (reportId: string) => {
+    setSharingReport(reportId)
+    try {
+      const result = await reportWorkflows.share(reportId, 'team')
+      if (result.success) {
+        toast.success('Report shared', 'The report has been sent to your team')
+      } else {
+        toast.error('Share failed', result.error || 'Could not share report')
+      }
+    } catch {
+      toast.error('Share failed', 'An unexpected error occurred')
+    } finally {
+      setSharingReport(null)
+    }
+  }, [toast])
 
   const filteredReports = previousReports.filter(report => {
     if (filter === 'recent') {
@@ -132,12 +170,28 @@ export default function ReportsPage() {
                 </p>
               </div>
               <div className="flex gap-2">
-                <button className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors">
-                  <Download className="w-4 h-4" />
+                <button
+                  onClick={() => handleDownloadReport(latestReport.id)}
+                  disabled={downloadingReport === latestReport.id}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
+                >
+                  {downloadingReport === latestReport.id ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4" />
+                  )}
                   Download PDF
                 </button>
-                <button className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors">
-                  <Mail className="w-4 h-4" />
+                <button
+                  onClick={() => handleShareReport(latestReport.id)}
+                  disabled={sharingReport === latestReport.id}
+                  className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-lg font-medium hover:bg-muted transition-colors disabled:opacity-50"
+                >
+                  {sharingReport === latestReport.id ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Mail className="w-4 h-4" />
+                  )}
                   Share
                 </button>
               </div>
@@ -290,11 +344,29 @@ export default function ReportsPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <button className="p-2 hover:bg-muted rounded-lg transition-colors" title="Download PDF">
-                        <Download className="w-4 h-4 text-muted-foreground" />
+                      <button
+                        onClick={() => handleDownloadReport(report.id)}
+                        disabled={downloadingReport === report.id}
+                        className="p-2 hover:bg-muted rounded-lg transition-colors disabled:opacity-50"
+                        title="Download PDF"
+                      >
+                        {downloadingReport === report.id ? (
+                          <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+                        ) : (
+                          <Download className="w-4 h-4 text-muted-foreground" />
+                        )}
                       </button>
-                      <button className="p-2 hover:bg-muted rounded-lg transition-colors" title="View Report">
-                        <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                      <button
+                        onClick={() => handleShareReport(report.id)}
+                        disabled={sharingReport === report.id}
+                        className="p-2 hover:bg-muted rounded-lg transition-colors disabled:opacity-50"
+                        title="Share Report"
+                      >
+                        {sharingReport === report.id ? (
+                          <Loader2 className="w-4 h-4 text-muted-foreground animate-spin" />
+                        ) : (
+                          <Mail className="w-4 h-4 text-muted-foreground" />
+                        )}
                       </button>
                     </div>
                   </motion.div>

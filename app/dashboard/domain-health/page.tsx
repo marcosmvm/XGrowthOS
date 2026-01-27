@@ -1,6 +1,7 @@
 'use client'
 
-import { Shield, CheckCircle, AlertTriangle, XCircle, RefreshCw, Mail, ArrowUp, ArrowDown } from 'lucide-react'
+import { useState, useCallback } from 'react'
+import { Shield, CheckCircle, AlertTriangle, XCircle, RefreshCw, Mail, ArrowUp, ArrowDown, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -16,6 +17,8 @@ import {
 import { cn } from '@/lib/utils'
 import { mockDomains } from '@/lib/data/dashboard'
 import { format, parseISO } from 'date-fns'
+import { useToastActions } from '@/components/ui/toast'
+import { domainWorkflows } from '@/lib/n8n/client'
 
 const statusConfig = {
   healthy: { icon: CheckCircle, color: 'text-emerald-500', bg: 'bg-emerald-500/10', label: 'Healthy' },
@@ -30,6 +33,25 @@ const authStatusConfig = {
 }
 
 export default function DomainHealthPage() {
+  const [isChecking, setIsChecking] = useState(false)
+  const toast = useToastActions()
+
+  const handleRunHealthCheck = useCallback(async () => {
+    setIsChecking(true)
+    try {
+      const result = await domainWorkflows.runHealthCheck('current')
+      if (result.success) {
+        toast.success('Health check complete', 'Domain health data has been updated')
+      } else {
+        toast.error('Health check failed', result.error || 'Could not run health check')
+      }
+    } catch {
+      toast.error('Health check failed', 'An unexpected error occurred')
+    } finally {
+      setIsChecking(false)
+    }
+  }, [toast])
+
   const healthyDomains = mockDomains.filter(d => d.status === 'healthy').length
   const warningDomains = mockDomains.filter(d => d.status === 'warning').length
   const criticalDomains = mockDomains.filter(d => d.status === 'critical').length
@@ -49,8 +71,17 @@ export default function DomainHealthPage() {
           <h1 className="text-2xl font-bold tracking-tight">Domain Health</h1>
           <p className="text-muted-foreground">Monitor your sending infrastructure and deliverability</p>
         </div>
-        <Button variant="outline" className="gap-2">
-          <RefreshCw className="w-4 h-4" />
+        <Button
+          variant="outline"
+          className="gap-2"
+          onClick={handleRunHealthCheck}
+          disabled={isChecking}
+        >
+          {isChecking ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <RefreshCw className="w-4 h-4" />
+          )}
           Run Health Check
         </Button>
       </div>
