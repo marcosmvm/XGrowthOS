@@ -1,15 +1,26 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { signIn } from '@/lib/supabase/actions'
 import { SocialAuthButtons } from './social-auth-buttons'
 
 export function LoginForm() {
+  const searchParams = useSearchParams()
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const authError = searchParams.get('error')
+    if (authError === 'auth') {
+      setError('Social login failed. Please try again or use email/password.')
+      // Clean up URL without refreshing page
+      window.history.replaceState({}, '', '/login')
+    }
+  }, [searchParams])
 
   const handleSubmit = async (formData: FormData) => {
     setIsLoading(true)

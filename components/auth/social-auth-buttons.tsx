@@ -11,27 +11,44 @@ interface SocialAuthButtonsProps {
 export function SocialAuthButtons({ redirectTo = '/dashboard' }: SocialAuthButtonsProps) {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
   const [isGitHubLoading, setIsGitHubLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const isAnyLoading = isGoogleLoading || isGitHubLoading
 
   const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true)
-    const supabase = createClient()
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
-      },
-    })
+    try {
+      setError(null)
+      setIsGoogleLoading(true)
+      const supabase = createClient()
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
+        },
+      })
+      if (error) throw error
+    } catch (err) {
+      setError('Failed to sign in with Google. Please try again.')
+      setIsGoogleLoading(false)
+    }
   }
 
   const handleGitHubSignIn = async () => {
-    setIsGitHubLoading(true)
-    const supabase = createClient()
-    await supabase.auth.signInWithOAuth({
-      provider: 'github',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
-      },
-    })
+    try {
+      setError(null)
+      setIsGitHubLoading(true)
+      const supabase = createClient()
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${redirectTo}`,
+        },
+      })
+      if (error) throw error
+    } catch (err) {
+      setError('Failed to sign in with GitHub. Please try again.')
+      setIsGitHubLoading(false)
+    }
   }
 
   return (
@@ -45,9 +62,15 @@ export function SocialAuthButtons({ redirectTo = '/dashboard' }: SocialAuthButto
         </div>
       </div>
 
+      {error && (
+        <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+          {error}
+        </div>
+      )}
+
       <button
         onClick={handleGoogleSignIn}
-        disabled={isGoogleLoading || isGitHubLoading}
+        disabled={isAnyLoading}
         className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-border bg-muted/50 hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isGoogleLoading ? (
@@ -77,7 +100,7 @@ export function SocialAuthButtons({ redirectTo = '/dashboard' }: SocialAuthButto
 
       <button
         onClick={handleGitHubSignIn}
-        disabled={isGoogleLoading || isGitHubLoading}
+        disabled={isAnyLoading}
         className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border border-border bg-muted/50 hover:bg-muted transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isGitHubLoading ? (
