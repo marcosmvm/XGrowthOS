@@ -20,10 +20,10 @@ export function HeroBackground({ children }: HeroBackgroundProps) {
         <GradientMesh intensity="medium" animated />
 
         {/* Layer 2: Floating orbs */}
-        <FloatingOrbs count={4} opacity={0.12} blur={100} />
+        <FloatingOrbs count={4} opacity={0.25} blur={80} />
 
         {/* Layer 3: Grid pattern overlay */}
-        <GridPattern type="dots" spacing={30} opacity={0.04} />
+        <GridPattern type="dots" spacing={30} opacity={0.06} />
 
         {/* Fade to background at bottom for smooth transition */}
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent" />

@@ -20,14 +20,14 @@ export function SubtleBackground({ children, showOrb = false }: SubtleBackground
         <GradientMesh intensity="low" animated={false} />
 
         {/* Very subtle grid */}
-        <GridPattern type="dots" spacing={40} opacity={0.03} />
+        <GridPattern type="dots" spacing={40} opacity={0.04} />
 
         {/* Optional: Single static orb for hero area */}
         {showOrb && (
           <div
             className="absolute -top-20 -right-20 w-96 h-96 rounded-full pointer-events-none"
             style={{
-              background: 'radial-gradient(circle, hsl(var(--primary) / 0.08) 0%, transparent 70%)',
+              background: 'radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, transparent 70%)',
               filter: 'blur(60px)',
             }}
           />
