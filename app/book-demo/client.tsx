@@ -15,6 +15,7 @@ import {
 
 import { Navigation } from '@/components/marketing/navigation'
 import { Footer } from '@/components/marketing/footer'
+import { SubtleBackground } from '@/components/backgrounds'
 import { workflows } from '@/lib/n8n/client'
 
 const benefits = [
@@ -105,8 +106,9 @@ export default function BookDemoClient() {
   }
 
   return (
-    <main className="min-h-screen">
-      <Navigation />
+    <SubtleBackground showOrb>
+      <main className="min-h-screen">
+        <Navigation />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
@@ -365,7 +367,8 @@ export default function BookDemoClient() {
         </div>
       </section>
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </SubtleBackground>
   )
 }

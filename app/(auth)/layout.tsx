@@ -1,11 +1,15 @@
+'use client'
+
+import { SubtleBackground } from '@/components/backgrounds'
+
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    <SubtleBackground showOrb>
       {children}
-    </div>
+    </SubtleBackground>
   )
 }

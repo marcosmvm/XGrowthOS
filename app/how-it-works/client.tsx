@@ -11,13 +11,15 @@ import { EngineCard } from '@/components/marketing/engine-card'
 import { StatsGrid } from '@/components/marketing/stats-grid'
 import { Timeline } from '@/components/marketing/timeline'
 import { CTASection } from '@/components/marketing/cta-section'
+import { SubtleBackground } from '@/components/backgrounds'
 
 import { leadGenEngines, csmEngines, onboardingTimeline, performanceStats } from '@/lib/data/engines'
 
 export default function HowItWorksClient() {
   return (
-    <main className="min-h-screen">
-      <Navigation />
+    <SubtleBackground showOrb>
+      <main className="min-h-screen">
+        <Navigation />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
@@ -160,7 +162,8 @@ export default function HowItWorksClient() {
         className="bg-muted/30"
       />
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </SubtleBackground>
   )
 }

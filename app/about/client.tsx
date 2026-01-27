@@ -9,6 +9,7 @@ import { Footer } from '@/components/marketing/footer'
 import { SectionHeading } from '@/components/marketing/section-heading'
 import { StatsGrid } from '@/components/marketing/stats-grid'
 import { CTASection } from '@/components/marketing/cta-section'
+import { SubtleBackground } from '@/components/backgrounds'
 
 import { aboutContent, heroStats } from '@/lib/data/content'
 
@@ -21,8 +22,9 @@ const valueIcons = {
 
 export default function AboutClient() {
   return (
-    <main className="min-h-screen">
-      <Navigation />
+    <SubtleBackground showOrb>
+      <main className="min-h-screen">
+        <Navigation />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
@@ -218,7 +220,8 @@ export default function AboutClient() {
         secondaryCta={{ href: '/contact', label: 'Get in Touch' }}
       />
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </SubtleBackground>
   )
 }

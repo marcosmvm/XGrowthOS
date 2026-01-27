@@ -9,14 +9,16 @@ import { SectionHeading } from '@/components/marketing/section-heading'
 import { PricingCard } from '@/components/marketing/pricing-card'
 import { FAQAccordion } from '@/components/marketing/faq-accordion'
 import { CTASection } from '@/components/marketing/cta-section'
+import { SubtleBackground } from '@/components/backgrounds'
 
 import { pricingTiers, includedFeatures, guarantee } from '@/lib/data/pricing'
 import { pricingFAQs } from '@/lib/data/content'
 
 export default function PricingClient() {
   return (
-    <main className="min-h-screen">
-      <Navigation />
+    <SubtleBackground showOrb>
+      <main className="min-h-screen">
+        <Navigation />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
@@ -143,7 +145,8 @@ export default function PricingClient() {
         secondaryCta={{ href: '/contact', label: 'Contact Sales' }}
       />
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </SubtleBackground>
   )
 }

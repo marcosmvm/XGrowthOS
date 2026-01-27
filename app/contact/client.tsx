@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { Navigation } from '@/components/marketing/navigation'
 import { Footer } from '@/components/marketing/footer'
 import { CTASection } from '@/components/marketing/cta-section'
+import { SubtleBackground } from '@/components/backgrounds'
 import { workflows } from '@/lib/n8n/client'
 
 export default function ContactClient() {
@@ -55,8 +56,9 @@ export default function ContactClient() {
   }
 
   return (
-    <main className="min-h-screen">
-      <Navigation />
+    <SubtleBackground showOrb>
+      <main className="min-h-screen">
+        <Navigation />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
@@ -279,7 +281,8 @@ export default function ContactClient() {
         primaryCta={{ href: '/book-demo', label: 'Book Your Discovery Call' }}
       />
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </SubtleBackground>
   )
 }
