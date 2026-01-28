@@ -1,6 +1,8 @@
 import { cn } from '@/lib/utils'
 import { LucideIcon, Inbox, Search, Users, Cog, Activity, FileText } from 'lucide-react'
 import Link from 'next/link'
+import { IconWrapper } from '@/components/ui/icon-wrapper'
+import { Button } from '@/components/ui/button'
 
 interface EmptyStateProps {
   icon?: LucideIcon
@@ -28,30 +30,24 @@ export function EmptyState({
         className
       )}
     >
-      <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-4">
-        <Icon className="w-6 h-6 text-muted-foreground" />
-      </div>
-      <h3 className="text-sm font-medium text-foreground mb-1">{title}</h3>
+      <IconWrapper icon={Icon} size="lg" variant="muted" className="mb-4" />
+      <h3 className="heading-xs mb-1">{title}</h3>
       {description && (
-        <p className="text-sm text-muted-foreground max-w-sm mb-4">
+        <p className="body-sm max-w-sm mb-4">
           {description}
         </p>
       )}
       {action && (
         action.href ? (
-          <Link
-            href={action.href}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            {action.label}
-          </Link>
+          <Button asChild>
+            <Link href={action.href}>
+              {action.label}
+            </Link>
+          </Button>
         ) : (
-          <button
-            onClick={action.onClick}
-            className="inline-flex items-center px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
-          >
+          <Button onClick={action.onClick}>
             {action.label}
-          </button>
+          </Button>
         )
       )}
     </div>
@@ -111,8 +107,8 @@ export function NoCampaigns() {
 
 export function NoAtRiskClients() {
   return (
-    <div className="p-4 bg-green-500/5 border border-green-500/20 rounded-lg text-center">
-      <p className="text-sm text-green-600 dark:text-green-400 font-medium">
+    <div className="p-4 bg-success/5 border border-success/20 rounded-lg text-center">
+      <p className="text-sm text-success font-medium">
         All clients are healthy
       </p>
       <p className="text-xs text-muted-foreground mt-1">
@@ -130,7 +126,7 @@ interface InlineEmptyStateProps {
 
 export function InlineEmptyState({ message, className }: InlineEmptyStateProps) {
   return (
-    <p className={cn('text-sm text-muted-foreground py-4 text-center', className)}>
+    <p className={cn('body-sm py-4 text-center', className)}>
       {message}
     </p>
   )

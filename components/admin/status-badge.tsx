@@ -27,21 +27,21 @@ interface StatusBadgeProps {
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
-  success: 'bg-green-500/10 text-green-500',
-  warning: 'bg-yellow-500/10 text-yellow-500',
-  error: 'bg-red-500/10 text-red-500',
-  info: 'bg-blue-500/10 text-blue-500',
+  success: 'bg-success/10 text-success',
+  warning: 'bg-warning/10 text-warning',
+  error: 'bg-destructive/10 text-destructive',
+  info: 'bg-info/10 text-info',
   default: 'bg-muted text-muted-foreground',
   // Client status variants
-  active: 'bg-green-500/10 text-green-500',
-  paused: 'bg-yellow-500/10 text-yellow-500',
-  churned: 'bg-red-500/10 text-red-500',
-  onboarding: 'bg-blue-500/10 text-blue-500',
+  active: 'bg-success/10 text-success',
+  paused: 'bg-warning/10 text-warning',
+  churned: 'bg-destructive/10 text-destructive',
+  onboarding: 'bg-info/10 text-info',
   // Engine run status variants
-  running: 'bg-blue-500/10 text-blue-500',
-  completed: 'bg-green-500/10 text-green-500',
-  failed: 'bg-red-500/10 text-red-500',
-  queued: 'bg-yellow-500/10 text-yellow-500',
+  running: 'bg-info/10 text-info',
+  completed: 'bg-success/10 text-success',
+  failed: 'bg-destructive/10 text-destructive',
+  queued: 'bg-warning/10 text-warning',
 }
 
 const sizeStyles: Record<BadgeSize, string> = {

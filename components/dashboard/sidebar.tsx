@@ -16,6 +16,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
+import { IconWrapper } from '@/components/ui/icon-wrapper'
 
 interface NavItem {
   href: string
@@ -103,7 +104,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                   {item.badge && (
                     <Badge
                       variant={item.badgeVariant || 'default'}
-                      className="text-[10px] px-1.5 py-0"
+                      className="text-[10px] px-1.5 min-w-[1.25rem] justify-center"
                     >
                       {item.badge}
                     </Badge>
@@ -115,13 +116,11 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
           {/* Health Score Summary */}
           <div className="p-4 border-t border-border">
-            <div className="flex items-center gap-3 p-3 rounded-lg bg-emerald-500/10">
-              <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-emerald-500" />
-              </div>
+            <div className="flex items-center gap-3 p-3 rounded-lg bg-success/10">
+              <IconWrapper icon={TrendingUp} size="md" variant="success" />
               <div>
-                <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Health Score</p>
-                <p className="text-xl font-bold text-emerald-700 dark:text-emerald-300">87</p>
+                <p className="text-sm font-medium text-success">Health Score</p>
+                <p className="text-xl font-bold text-success">87</p>
               </div>
             </div>
           </div>

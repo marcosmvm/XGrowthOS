@@ -14,9 +14,9 @@ interface HealthScoreProps {
 
 export function HealthScore({ score, status, details }: HealthScoreProps) {
   const statusColors = {
-    healthy: 'text-green-500 bg-green-500/10',
-    warning: 'text-yellow-500 bg-yellow-500/10',
-    critical: 'text-red-500 bg-red-500/10',
+    healthy: 'text-success bg-success/10',
+    warning: 'text-warning bg-warning/10',
+    critical: 'text-destructive bg-destructive/10',
   }
 
   const statusLabels = {

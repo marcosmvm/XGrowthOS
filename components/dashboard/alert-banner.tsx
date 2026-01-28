@@ -16,9 +16,9 @@ export function AlertBanner({ message, type = 'warning', dismissible = true }: A
   if (dismissed) return null
 
   const styles = {
-    warning: 'bg-yellow-500/10 border-yellow-500/20 text-yellow-600 dark:text-yellow-400',
-    error: 'bg-red-500/10 border-red-500/20 text-red-600 dark:text-red-400',
-    info: 'bg-blue-500/10 border-blue-500/20 text-blue-600 dark:text-blue-400',
+    warning: 'bg-warning/10 border-warning/20 text-warning',
+    error: 'bg-destructive/10 border-destructive/20 text-destructive',
+    info: 'bg-info/10 border-info/20 text-info',
   }
 
   return (

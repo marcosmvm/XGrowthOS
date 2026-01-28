@@ -8,18 +8,18 @@ import { mockEngineActivity } from '@/lib/data/dashboard'
 const statusConfig = {
   completed: {
     icon: CheckCircle,
-    color: 'text-emerald-500',
-    bg: 'bg-emerald-500/10',
+    color: 'text-success',
+    bg: 'bg-success/10',
   },
   running: {
     icon: Circle,
-    color: 'text-blue-500',
-    bg: 'bg-blue-500/10',
+    color: 'text-info',
+    bg: 'bg-info/10',
   },
   failed: {
     icon: AlertCircle,
-    color: 'text-red-500',
-    bg: 'bg-red-500/10',
+    color: 'text-destructive',
+    bg: 'bg-destructive/10',
   },
   scheduled: {
     icon: Clock,
@@ -66,8 +66,8 @@ export function EngineActivity() {
                 {activity.status === 'running' && (
                   <div className="flex items-center gap-1">
                     <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-info opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-info"></span>
                     </span>
                   </div>
                 )}

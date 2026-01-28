@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ChevronRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { StatusBadge } from '@/components/ui/status-badge'
+import { getStaggerDelay } from '@/lib/animations'
 
 interface CampaignCardProps {
   id: string
@@ -15,34 +16,20 @@ interface CampaignCardProps {
 }
 
 export function CampaignCard({ id, name, status, sent, replyRate, index = 0 }: CampaignCardProps) {
-  const statusStyles = {
-    active: 'text-green-500',
-    paused: 'text-yellow-500',
-    completed: 'text-blue-500',
-    draft: 'text-muted-foreground',
-  }
-
-  const statusIcons = {
-    active: '●',
-    paused: '○',
-    completed: '✓',
-    draft: '◌',
-  }
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.3 }}
+      transition={getStaggerDelay(index)}
     >
       <Link
         href={`/dashboard/campaigns/${id}`}
         className="flex items-center justify-between p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors group"
       >
         <div className="flex items-center gap-3">
-          <span className={cn('text-lg', statusStyles[status])}>
-            {statusIcons[status]}
-          </span>
+          <StatusBadge variant={status} size="sm">
+            {status}
+          </StatusBadge>
           <div>
             <p className="font-medium">{name}</p>
             <p className="text-sm text-muted-foreground">

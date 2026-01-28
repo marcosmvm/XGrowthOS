@@ -70,15 +70,15 @@ export const RESOURCE_COLORS: Record<ResourceType, string> = {
 
 // Helper function to get health color based on score
 export function getHealthColorClass(score: number): string {
-  if (score >= HEALTH_THRESHOLDS.HEALTHY) return 'text-green-500'
-  if (score >= HEALTH_THRESHOLDS.AT_RISK) return 'text-yellow-500'
-  return 'text-red-500'
+  if (score >= HEALTH_THRESHOLDS.HEALTHY) return 'text-success'
+  if (score >= HEALTH_THRESHOLDS.AT_RISK) return 'text-warning'
+  return 'text-destructive'
 }
 
 export function getHealthBgColorClass(score: number): string {
-  if (score >= HEALTH_THRESHOLDS.HEALTHY) return 'bg-green-500/10'
-  if (score >= HEALTH_THRESHOLDS.AT_RISK) return 'bg-yellow-500/10'
-  return 'bg-red-500/10'
+  if (score >= HEALTH_THRESHOLDS.HEALTHY) return 'bg-success/10'
+  if (score >= HEALTH_THRESHOLDS.AT_RISK) return 'bg-warning/10'
+  return 'bg-destructive/10'
 }
 
 // Get health status label

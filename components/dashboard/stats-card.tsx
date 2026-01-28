@@ -27,7 +27,7 @@ export function StatsCard({ label, value, change, index = 0 }: StatsCardProps) {
       {change && (
         <div className={cn(
           'flex items-center gap-1 mt-2 text-sm',
-          change.trend === 'up' ? 'text-green-500' : 'text-red-500'
+          change.trend === 'up' ? 'text-success' : 'text-destructive'
         )}>
           {change.trend === 'up' ? (
             <TrendingUp className="w-4 h-4" />

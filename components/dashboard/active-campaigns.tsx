@@ -78,15 +78,15 @@ export function ActiveCampaigns() {
               <div className="space-y-1">
                 <div className="flex h-2 rounded-full overflow-hidden bg-muted">
                   <div
-                    className="bg-emerald-500"
+                    className="bg-success"
                     style={{ width: `${positivePercent}%` }}
                   />
                   <div
-                    className="bg-amber-500"
+                    className="bg-warning"
                     style={{ width: `${totalReplies > 0 ? (campaign.neutralReplies / totalReplies) * 100 : 0}%` }}
                   />
                   <div
-                    className="bg-red-400"
+                    className="bg-destructive/70"
                     style={{ width: `${totalReplies > 0 ? (campaign.negativeReplies / totalReplies) * 100 : 0}%` }}
                   />
                 </div>

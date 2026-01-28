@@ -11,15 +11,15 @@ export function HealthScoreCard() {
   const { overall, status, domainHealth, replyQuality, engagementLevel, meetingConversion, trend, riskSignals } = mockHealthScore
 
   const TrendIcon = trend === 'improving' ? TrendingUp : trend === 'declining' ? TrendingDown : Minus
-  const trendColor = trend === 'improving' ? 'text-emerald-500' : trend === 'declining' ? 'text-red-500' : 'text-muted-foreground'
+  const trendColor = trend === 'improving' ? 'text-success' : trend === 'declining' ? 'text-destructive' : 'text-muted-foreground'
 
   const statusColors = {
-    healthy: 'text-emerald-500 bg-emerald-500/10',
-    warning: 'text-amber-500 bg-amber-500/10',
-    critical: 'text-red-500 bg-red-500/10',
+    healthy: 'text-success bg-success/10',
+    warning: 'text-warning bg-warning/10',
+    critical: 'text-destructive bg-destructive/10',
   }
 
-  const scoreColor = status === 'healthy' ? 'stroke-emerald-500' : status === 'warning' ? 'stroke-amber-500' : 'stroke-red-500'
+  const scoreColor = status === 'healthy' ? 'stroke-success' : status === 'warning' ? 'stroke-warning' : 'stroke-destructive'
 
   return (
     <Card>
@@ -83,7 +83,7 @@ export function HealthScoreCard() {
         {/* Risk Signals */}
         {riskSignals.length > 0 && (
           <div className="mt-4 pt-4 border-t">
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+            <p className="label-text mb-2">
               Attention Items
             </p>
             {riskSignals.map((signal, idx) => (
@@ -91,14 +91,14 @@ export function HealthScoreCard() {
                 key={idx}
                 className={cn(
                   "flex items-start gap-2 p-2 rounded-lg text-sm",
-                  signal.severity === 'high' ? 'bg-red-500/10' :
-                  signal.severity === 'medium' ? 'bg-amber-500/10' : 'bg-blue-500/10'
+                  signal.severity === 'high' ? 'bg-destructive/10' :
+                  signal.severity === 'medium' ? 'bg-warning/10' : 'bg-info/10'
                 )}
               >
                 <AlertTriangle className={cn(
                   "w-4 h-4 mt-0.5 shrink-0",
-                  signal.severity === 'high' ? 'text-red-500' :
-                  signal.severity === 'medium' ? 'text-amber-500' : 'text-blue-500'
+                  signal.severity === 'high' ? 'text-destructive' :
+                  signal.severity === 'medium' ? 'text-warning' : 'text-info'
                 )} />
                 <div>
                   <p className="font-medium">{signal.signal}</p>
@@ -111,9 +111,9 @@ export function HealthScoreCard() {
 
         {riskSignals.length === 0 && (
           <div className="mt-4 pt-4 border-t">
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-emerald-500/10 text-sm">
-              <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+            <div className="flex items-center gap-2 p-2 rounded-lg bg-success/10 text-sm">
+              <CheckCircle className="w-4 h-4 text-success" />
+              <span className="text-success font-medium">
                 All systems operating normally
               </span>
             </div>
@@ -125,7 +125,7 @@ export function HealthScoreCard() {
 }
 
 function ScoreRow({ label, value }: { label: string; value: number }) {
-  const color = value >= 90 ? 'bg-emerald-500' : value >= 70 ? 'bg-amber-500' : 'bg-red-500'
+  const color = value >= 90 ? 'bg-success' : value >= 70 ? 'bg-warning' : 'bg-destructive'
 
   return (
     <div className="space-y-1">

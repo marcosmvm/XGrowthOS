@@ -94,7 +94,7 @@ export function HealthDisplay({
           <span
             className={cn(
               'flex items-center text-xs',
-              trend > 0 ? 'text-green-500' : 'text-red-500'
+              trend > 0 ? 'text-success' : 'text-destructive'
             )}
           >
             <TrendIcon className="w-3 h-3 mr-0.5" />
@@ -128,26 +128,26 @@ export function HealthBreakdown({ clients, className }: HealthBreakdownProps) {
 
   return (
     <div className={cn('space-y-3', className)}>
-      <div className="flex items-center justify-between p-3 bg-green-500/10 rounded-lg">
+      <div className="flex items-center justify-between p-3 bg-success/10 rounded-lg">
         <div className="flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-green-500" />
+          <CheckCircle2 className="w-4 h-4 text-success" />
           <span className="text-sm font-medium">Healthy</span>
         </div>
-        <span className="text-sm font-bold text-green-500">{healthy}</span>
+        <span className="text-sm font-bold text-success">{healthy}</span>
       </div>
-      <div className="flex items-center justify-between p-3 bg-yellow-500/10 rounded-lg">
+      <div className="flex items-center justify-between p-3 bg-warning/10 rounded-lg">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-yellow-500" />
+          <AlertTriangle className="w-4 h-4 text-warning" />
           <span className="text-sm font-medium">At Risk</span>
         </div>
-        <span className="text-sm font-bold text-yellow-500">{atRisk}</span>
+        <span className="text-sm font-bold text-warning">{atRisk}</span>
       </div>
-      <div className="flex items-center justify-between p-3 bg-red-500/10 rounded-lg">
+      <div className="flex items-center justify-between p-3 bg-destructive/10 rounded-lg">
         <div className="flex items-center gap-2">
-          <XCircle className="w-4 h-4 text-red-500" />
+          <XCircle className="w-4 h-4 text-destructive" />
           <span className="text-sm font-medium">Critical</span>
         </div>
-        <span className="text-sm font-bold text-red-500">{critical}</span>
+        <span className="text-sm font-bold text-destructive">{critical}</span>
       </div>
     </div>
   )

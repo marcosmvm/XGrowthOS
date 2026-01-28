@@ -83,8 +83,8 @@ export function RecentMeetings() {
                   className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                      <User className="w-4 h-4 text-emerald-500" />
+                    <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center">
+                      <User className="w-4 h-4 text-success" />
                     </div>
                     <div>
                       <p className="font-medium text-sm">{meeting.contactName}</p>
