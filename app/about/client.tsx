@@ -9,6 +9,7 @@ import { Footer } from '@/components/marketing/footer'
 import { SectionHeading } from '@/components/marketing/section-heading'
 import { StatsGrid } from '@/components/marketing/stats-grid'
 import { CTASection } from '@/components/marketing/cta-section'
+import { ComplianceBadges } from '@/components/marketing/compliance-badges'
 import { SubtleBackground } from '@/components/backgrounds'
 
 import { aboutContent, heroStats } from '@/lib/data/content'
@@ -211,6 +212,9 @@ export default function AboutClient() {
           <StatsGrid stats={heroStats} columns={4} />
         </div>
       </section>
+
+      {/* Trust & Compliance */}
+      <ComplianceBadges className="py-20" />
 
       {/* CTA Section */}
       <CTASection

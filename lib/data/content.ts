@@ -39,6 +39,26 @@ export const pricingFAQs = [
     answer:
       "Our standard onboarding is 14 days from signed agreement to campaign launch. This includes domain provisioning, warmup initiation, CRM integration, and campaign development. First replies typically come within 48-72 hours of launch.",
   },
+  {
+    question: 'What outreach channels do you support?',
+    answer:
+      "Currently, we specialize in AI-powered cold email—it's our core strength and where we deliver the best results. LinkedIn outreach is on our product roadmap. We believe in transparency: we focus on doing email exceptionally well rather than spreading thin across multiple channels.",
+  },
+  {
+    question: 'How do you ensure email deliverability?',
+    answer:
+      "Every client gets dedicated sending domains (no shared IPs). We handle SPF, DKIM, and DMARC configuration, run a 14-day warmup process, and continuously monitor domain reputation. Our Guardian engine checks for blacklists every 4 hours and alerts us immediately if any issues arise.",
+  },
+  {
+    question: 'What compliance standards do you follow?',
+    answer:
+      "We're GDPR and CAN-SPAM compliant. Every email includes one-click unsubscribe, opt-outs are processed within 24 hours, and we check DNC lists before every send. We also follow Gmail and Yahoo's 2024-2025 sender requirements to maintain optimal deliverability.",
+  },
+  {
+    question: 'Can I try before committing long-term?',
+    answer:
+      "Absolutely. Every engagement starts with a 90-day pilot at full capacity. After the pilot, you're on month-to-month with 30-day notice to cancel. No long-term contracts required—we earn your business every month through results.",
+  },
 ]
 
 export const aboutContent = {

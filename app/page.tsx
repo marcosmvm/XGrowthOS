@@ -8,6 +8,9 @@ import { Navigation } from '@/components/marketing/navigation'
 import { Footer } from '@/components/marketing/footer'
 import { StatsGrid } from '@/components/marketing/stats-grid'
 import { CTASection } from '@/components/marketing/cta-section'
+import { ChannelGrid } from '@/components/marketing/channel-grid'
+import { HumanAIComparison } from '@/components/marketing/human-ai-comparison'
+import { ComplianceBadges } from '@/components/marketing/compliance-badges'
 import { HeroBackground } from '@/components/backgrounds'
 
 import { heroStats } from '@/lib/data/content'
@@ -65,8 +68,8 @@ export default function HomePage() {
                 <span className="gradient-text">Books Meetings While You Sleep</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-                11 AI engines working 24/7 to identify, engage, and book qualified meetings
-                with your ideal customers. No more manual prospecting.
+                AI-powered automation with human strategic oversight. 11 engines working 24/7
+                to identify, engage, and book qualified meetings with your ideal customers.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
@@ -92,8 +95,11 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Supported Channels Section */}
+        <ChannelGrid className="py-20 bg-muted/30" />
+
         {/* AI Engines Section */}
-        <section className="py-20 bg-muted/30">
+        <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               className="text-center mb-16"
@@ -102,12 +108,15 @@ export default function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
+              <span className="inline-block px-3 py-1 mb-4 text-sm font-medium text-primary bg-primary/10 rounded-full">
+                11 AI Engines
+              </span>
               <h2 className="font-heading text-3xl sm:text-4xl font-bold mb-4">
-                Five AI Engines Working For You
+                Five Lead Generation Engines Working For You
               </h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                 Each engine handles a critical part of your lead generation pipeline,
-                working autonomously 24/7.
+                working autonomously 24/7 with human oversight.
               </p>
             </motion.div>
 
@@ -157,11 +166,18 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Human + AI Section */}
+        <HumanAIComparison className="py-20 bg-muted/30" />
+
+        {/* Compliance & Trust Section */}
+        <ComplianceBadges className="py-20" />
+
         {/* CTA Section */}
         <CTASection
           title="Ready to Transform Your Pipeline?"
           subtitle="Join our founding partners and let AI handle your lead generation while you focus on closing deals."
           primaryCta={{ href: '/book-demo', label: 'Book Your Discovery Call' }}
+          className="bg-muted/30"
         />
 
         <Footer />
