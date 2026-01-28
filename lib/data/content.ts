@@ -129,8 +129,23 @@ export const heroStats = [
   { value: '17.8x', label: 'Average ROI', subtext: 'Across all clients' },
 ]
 
+export const heroStatsEnhanced = [
+  { value: 40, suffix: '+', label: 'Meetings/Month', subtext: 'Qualified conversations booked', iconName: 'Calendar' as const, decimals: 0 },
+  { value: 2.1, prefix: '$', suffix: 'M', label: 'Pipeline Created', subtext: 'TechFlow: 90 days', iconName: 'TrendingUp' as const, decimals: 1 },
+  { value: 14, suffix: ' Days', label: 'Launch to First Meeting', subtext: 'Average across clients', iconName: 'Clock' as const, decimals: 0 },
+  { value: 17.8, suffix: 'x', label: 'Average ROI', subtext: 'Across all client campaigns', iconName: 'BarChart3' as const, decimals: 1 },
+]
+
+export const heroPainPoints = [
+  'Hire Another SDR',
+  'Chase Unqualified Leads',
+  'Guess What Works',
+  'Burn Your Domain',
+  'Miss Your Pipeline Target',
+]
+
 export const icpWedge = {
-  primary: 'B2B companies with $25K+ contracts',
-  expanded: 'Service businesses, SaaS, and consultancies selling to mid-market and enterprise',
-  qualifier: 'If your deals are worth $25K+ and you need more qualified conversations, this is for you.',
+  primary: 'B2B teams with $25K+ deals',
+  expanded: 'SaaS, services, and tech companies selling to mid-market and enterprise',
+  qualifier: 'If your deals are $25K+ and your pipeline is unpredictable, we built this for you.',
 }

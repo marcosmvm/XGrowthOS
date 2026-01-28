@@ -115,6 +115,16 @@
   .gradient-text {
     @apply bg-gradient-to-r from-primary to-emerald-400 bg-clip-text text-transparent;
   }
+
+  .gradient-text-animated {
+    @apply bg-gradient-to-r from-primary via-emerald-400 to-primary bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: gradient-shift 3s ease-in-out infinite;
+  }
+
+  .glass-card {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl;
+  }
 }
 
 /* Animation delays */

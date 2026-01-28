@@ -66,6 +66,9 @@ const config: Config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },
@@ -95,6 +98,17 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.7' },
         },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-6px)' },
+        },
+        'dash-flow': {
+          to: { strokeDashoffset: '-20' },
+        },
+        'gradient-shift': {
+          '0%, 100%': { backgroundPosition: '0% center' },
+          '50%': { backgroundPosition: '100% center' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -104,6 +118,9 @@ const config: Config = {
         'slide-out-right': 'slide-out-right 0.3s ease-out',
         'scale-in': 'scale-in 0.2s ease-out',
         'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite',
+        'float': 'float 3s ease-in-out infinite',
+        'dash-flow': 'dash-flow 1.5s linear infinite',
+        'gradient-shift': 'gradient-shift 3s ease-in-out infinite',
       },
     },
   },
