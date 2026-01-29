@@ -48,7 +48,7 @@ export function ProcessFlow({ showHeading = true, className }: ProcessFlowProps)
                         className={cn(
                           'inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full',
                           step.type === 'human' && 'bg-blue-500/10 text-blue-600',
-                          step.type === 'ai' && 'bg-emerald-500/10 text-emerald-600',
+                          step.type === 'ai' && 'bg-violet-500/10 text-violet-600',
                           step.type === 'hybrid' && 'bg-purple-500/10 text-purple-600'
                         )}
                       >
@@ -110,7 +110,7 @@ export function ProcessFlow({ showHeading = true, className }: ProcessFlowProps)
                   className={cn(
                     'inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full flex-shrink-0',
                     step.type === 'human' && 'bg-blue-500/10 text-blue-600',
-                    step.type === 'ai' && 'bg-emerald-500/10 text-emerald-600',
+                    step.type === 'ai' && 'bg-violet-500/10 text-violet-600',
                     step.type === 'hybrid' && 'bg-purple-500/10 text-purple-600'
                   )}
                 >
@@ -143,7 +143,7 @@ export function ProcessFlow({ showHeading = true, className }: ProcessFlowProps)
             <span className="text-muted-foreground">Human-Led</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-emerald-500/10 text-emerald-600">
+            <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full bg-violet-500/10 text-violet-600">
               <Bot className="w-3 h-3" />
             </span>
             <span className="text-muted-foreground">AI-Powered</span>

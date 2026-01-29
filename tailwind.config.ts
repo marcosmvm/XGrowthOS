@@ -61,7 +61,7 @@ const config: Config = {
           blue: 'hsl(var(--metric-blue))',
           amber: 'hsl(var(--metric-amber))',
           indigo: 'hsl(var(--metric-indigo))',
-          emerald: 'hsl(var(--metric-emerald))',
+          violet: 'hsl(var(--metric-violet))',
         },
       },
       fontFamily: {

@@ -64,7 +64,7 @@ export default function HowItWorksClient() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/book-demo"
-                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-emerald-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition-all shadow-lg shadow-primary/25"
+                  className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-violet-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition-all shadow-lg shadow-primary/25"
                 >
                   Book Your Discovery Call
                   <ArrowRight className="w-5 h-5" />
