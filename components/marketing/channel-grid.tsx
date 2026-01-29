@@ -64,7 +64,7 @@ export function ChannelGrid({ showHeading = true, showFeatures = true, className
               className={cn(
                 'rounded-xl p-6 relative transition-all',
                 channel.status === 'active'
-                  ? 'glass-card border-t-2 border-t-primary/50 shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/15'
+                  ? 'glass-premium glow-border-hover border-t-2 border-t-primary/50'
                   : 'bg-card/30 border border-border/50 opacity-70'
               )}
               initial={{ opacity: 0, y: 20 }}

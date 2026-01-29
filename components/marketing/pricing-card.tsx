@@ -44,8 +44,8 @@ export function PricingCard({
       className={cn(
         'rounded-2xl p-8 flex flex-col',
         featured
-          ? 'bg-gradient-to-b from-primary/10 via-primary/5 to-transparent border-2 border-primary shadow-lg'
-          : 'bg-card border border-border'
+          ? 'bg-gradient-to-b from-primary/10 via-primary/5 to-transparent border-2 border-primary shadow-lg glow-border glow-pulse'
+          : 'bg-card border border-border glow-border-hover'
       )}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}

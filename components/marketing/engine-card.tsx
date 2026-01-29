@@ -44,7 +44,7 @@ export function EngineCard({
   )
 
   const cardClasses = cn(
-    'rounded-xl p-6 transition-all',
+    'rounded-xl p-6 transition-all glow-border-hover',
     variant === 'default' && 'bg-card border border-border hover:border-primary/50',
     variant === 'featured' && 'bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20',
     slug && 'cursor-pointer hover:shadow-lg group'

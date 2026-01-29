@@ -129,8 +129,14 @@ export default function HomePage() {
         {/* Case Snippets Section - Social Proof */}
         <CaseSnippetsSection className="py-20" />
 
+        {/* Tech Line Divider */}
+        <div className="tech-line w-full max-w-md mx-auto" />
+
         {/* Supported Channels Section */}
         <ChannelGrid className="py-20 section-violet" />
+
+        {/* Tech Line Divider */}
+        <div className="tech-line w-full max-w-md mx-auto" />
 
         {/* Process Steps - How It Works */}
         <ProcessSteps className="py-20" />

@@ -29,6 +29,11 @@ export function HeroBackground({ children }: HeroBackgroundProps) {
         <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-violet-500/8 via-transparent to-transparent opacity-70" />
         <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-gradient-radial from-amber-500/5 via-transparent to-transparent opacity-50" />
 
+        {/* Layer 5: Futuristic scan line */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
+          <div className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent animate-scan-line" />
+        </div>
+
         {/* Fade to background at bottom for smooth transition */}
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent" />
       </div>
