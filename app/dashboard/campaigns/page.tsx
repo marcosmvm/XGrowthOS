@@ -67,7 +67,7 @@ export default function CampaignsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">Total Meetings</p>
-                <p className="text-3xl font-bold text-primary">{totalMeetings}</p>
+                <p className="text-3xl font-bold text-primary-muted">{totalMeetings}</p>
               </div>
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-primary" />
@@ -198,7 +198,7 @@ export default function CampaignsPage() {
                           <p className="text-xs text-muted-foreground uppercase">Replies</p>
                         </div>
                         <div>
-                          <p className="text-2xl font-bold text-primary">{campaign.meetings}</p>
+                          <p className="text-2xl font-bold text-primary-muted">{campaign.meetings}</p>
                           <p className="text-xs text-muted-foreground uppercase">Meetings</p>
                         </div>
                         <div>

@@ -16,6 +16,7 @@ const iconWrapperVariants = cva(
       },
       variant: {
         primary: 'bg-primary/10',
+        'primary-muted': 'bg-primary-soft',
         success: 'bg-success/10',
         warning: 'bg-warning/10',
         info: 'bg-info/10',
@@ -46,6 +47,7 @@ const iconSizeMap: Record<string, string> = {
 
 const iconColorMap: Record<string, string> = {
   primary: 'text-primary',
+  'primary-muted': 'text-primary-muted',
   success: 'text-success',
   warning: 'text-warning',
   info: 'text-info',

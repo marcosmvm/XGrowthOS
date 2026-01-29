@@ -60,7 +60,7 @@ export function EngineActivity() {
                   </div>
                   <p className="text-sm text-muted-foreground truncate">{activity.summary}</p>
                   {activity.impact && (
-                    <p className="text-xs text-primary mt-1">{activity.impact}</p>
+                    <p className="text-xs text-primary-muted mt-1">{activity.impact}</p>
                   )}
                 </div>
                 {activity.status === 'running' && (

@@ -23,7 +23,7 @@ export function StatsCard({ label, value, change, index = 0 }: StatsCardProps) {
       className="bg-card border border-border rounded-xl p-6"
     >
       <p className="text-sm text-muted-foreground mb-1">{label}</p>
-      <p className="text-3xl font-bold text-primary">{value}</p>
+      <p className="text-3xl font-bold text-primary-muted">{value}</p>
       {change && (
         <div className={cn(
           'flex items-center gap-1 mt-2 text-sm',

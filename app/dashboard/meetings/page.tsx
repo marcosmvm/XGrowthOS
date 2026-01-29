@@ -108,7 +108,7 @@ export default function MeetingsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs text-muted-foreground uppercase tracking-wider">Upcoming</p>
-                <p className="text-3xl font-bold text-primary">{upcomingMeetings.length}</p>
+                <p className="text-3xl font-bold text-primary-muted">{upcomingMeetings.length}</p>
               </div>
               <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                 <Calendar className="w-5 h-5 text-primary" />

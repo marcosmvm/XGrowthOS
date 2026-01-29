@@ -13,14 +13,27 @@
     --primary-foreground: 0 0% 100%;
     --muted: 210 20% 96%;
     --muted-foreground: 215 16% 47%;
-    --accent: 210 20% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 160 84% 39%;
     --radius: 0.75rem;
+
+    /* Primary Muted Variants - Desaturated for dashboards */
+    --primary-muted: 160 45% 42%;
+    --primary-muted-foreground: 160 45% 25%;
+    --primary-soft: 160 30% 92%;
+    --primary-soft-foreground: 160 50% 35%;
+
+    /* Distinct Accent Color - Amber */
+    --accent: 38 92% 50%;
+    --accent-foreground: 38 100% 10%;
+    --accent-soft: 38 80% 95%;
+
+    /* Solid Button Colors */
+    --primary-button: 160 84% 36%;
+    --primary-button-hover: 160 84% 32%;
 
     /* Semantic Status Colors */
     --success: 160 84% 39%;
@@ -46,14 +59,27 @@
     --primary: 142 71% 45%; /* #22C55E */
     --primary-foreground: 0 0% 100%;
     --muted: 0 0% 15%;
-    --muted-foreground: 240 4% 65%;
-    --accent: 0 0% 15%;
-    --accent-foreground: 210 20% 98%;
+    --muted-foreground: 0 0% 72%; /* Fixed: neutral gray with ~9:1 contrast */
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 15%;
     --input: 0 0% 15%;
     --ring: 142 71% 45%;
+
+    /* Primary Muted Variants - Desaturated for dashboards */
+    --primary-muted: 142 40% 50%;
+    --primary-muted-foreground: 142 45% 75%;
+    --primary-soft: 142 25% 18%;
+    --primary-soft-foreground: 142 50% 65%;
+
+    /* Distinct Accent Color - Amber */
+    --accent: 38 92% 55%;
+    --accent-foreground: 38 100% 95%;
+    --accent-soft: 38 60% 15%;
+
+    /* Solid Button Colors */
+    --primary-button: 142 71% 48%;
+    --primary-button-hover: 142 71% 52%;
 
     /* Semantic Status Colors - Dark Mode */
     --success: 142 71% 45%;

@@ -17,9 +17,15 @@ const buttonVariants = cva(
           'bg-muted text-foreground hover:bg-muted/80 active:scale-[0.98]',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        // New corporate variants
+        // Corporate variants
         gradient: 'bg-gradient-to-r from-primary to-emerald-500 text-white hover:opacity-90 active:scale-[0.98]',
         success: 'bg-success text-success-foreground hover:bg-success/90 active:scale-[0.98]',
+        // Solid alternatives to gradient (timeless, non-trendy)
+        solid: 'bg-primary-button text-white hover:bg-primary-button-hover active:scale-[0.98] shadow-sm',
+        elevated: 'bg-primary-button text-white hover:bg-primary-button-hover active:scale-[0.98] shadow-md shadow-primary/20',
+        'outline-primary': 'border-2 border-primary text-primary bg-transparent hover:bg-primary/10 active:scale-[0.98]',
+        // Muted variant for dashboard contexts
+        'muted-primary': 'bg-primary-soft text-primary-soft-foreground hover:bg-primary-soft/80 active:scale-[0.98]',
       },
       size: {
         default: 'h-10 px-4 py-2',

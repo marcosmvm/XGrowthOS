@@ -14,6 +14,12 @@ const config: Config = {
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
+          muted: 'hsl(var(--primary-muted))',
+          'muted-foreground': 'hsl(var(--primary-muted-foreground))',
+          soft: 'hsl(var(--primary-soft))',
+          'soft-foreground': 'hsl(var(--primary-soft-foreground))',
+          button: 'hsl(var(--primary-button))',
+          'button-hover': 'hsl(var(--primary-button-hover))',
         },
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -28,6 +34,7 @@ const config: Config = {
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
+          soft: 'hsl(var(--accent-soft))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
