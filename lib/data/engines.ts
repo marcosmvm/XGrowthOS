@@ -172,3 +172,11 @@ export const performanceStats = [
     subtext: 'vs. 1% industry avg',
   },
 ]
+
+export const howItWorksRotatingText = [
+  'Optimizing',
+  'Protecting',
+  'Learning',
+  'Converting',
+  'Scaling',
+]
