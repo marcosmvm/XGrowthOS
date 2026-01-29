@@ -11,7 +11,7 @@ interface MetricCardProps {
   value: string | number
   trend?: number
   icon: React.ComponentType<{ className?: string }>
-  variant?: 'primary' | 'blue' | 'amber' | 'indigo' | 'emerald'
+  variant?: 'primary' | 'blue' | 'amber' | 'indigo' | 'violet'
 }
 
 function MetricCard({ label, value, trend, icon, variant = 'primary' }: MetricCardProps) {
@@ -65,7 +65,7 @@ export function MetricCards() {
         label="Positive Replies"
         value={mockMetrics.positiveReplies.toLocaleString()}
         icon={ThumbsUp}
-        variant="emerald"
+        variant="violet"
       />
     </div>
   )

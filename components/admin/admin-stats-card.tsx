@@ -8,7 +8,7 @@ interface AdminStatsCardProps {
   label: string
   value: string | number
   icon: LucideIcon
-  variant?: 'primary' | 'blue' | 'amber' | 'indigo' | 'emerald'
+  variant?: 'primary' | 'blue' | 'amber' | 'indigo' | 'violet'
   trend?: {
     value: number
     isPositive: boolean
