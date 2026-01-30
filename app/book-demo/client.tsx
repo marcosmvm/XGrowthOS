@@ -12,7 +12,6 @@ import {
   AlertCircle,
   CalendarDays,
   ArrowRight,
-  Star,
 } from 'lucide-react'
 
 import { Navigation } from '@/components/marketing/navigation'
@@ -360,23 +359,6 @@ export default function BookDemoClient() {
                     </div>
                   </motion.div>
                 ))}
-              </div>
-
-              {/* Trust Signal */}
-              <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-2xl p-6">
-                <div className="flex gap-1 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
-                </div>
-                <p className="text-foreground text-sm italic mb-4">
-                  &ldquo;XGrowthOS transformed our outbound strategy. We went from struggling
-                  to book 5 meetings a month to consistently landing 20+ qualified
-                  conversations.&rdquo;
-                </p>
-                <p className="font-medium text-sm">
-                  — Director of Sales, SaaS Company
-                </p>
               </div>
 
               {/* Trust Strip */}
