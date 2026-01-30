@@ -136,7 +136,7 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
         return (
           <motion.div
             key={engine.label}
-            className="group absolute w-11 h-11 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg z-10 cursor-pointer"
+            className="group absolute w-11 h-11 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg z-10 hover:z-50 cursor-pointer"
             style={{
               top: `calc(50% - 22px + ${y}px)`,
               left: `calc(50% - 22px + ${x}px)`,
@@ -168,7 +168,7 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
         return (
           <motion.div
             key={engine.label}
-            className="group absolute w-9 h-9 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center shadow-md z-10 cursor-pointer"
+            className="group absolute w-9 h-9 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center shadow-md z-10 hover:z-50 cursor-pointer"
             style={{
               top: `calc(50% - 18px + ${y}px)`,
               left: `calc(50% - 18px + ${x}px)`,
