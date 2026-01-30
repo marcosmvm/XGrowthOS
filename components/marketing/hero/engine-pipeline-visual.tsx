@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, Target, Brain, Zap, Eye, BarChart3, Scale, BookOpen, Rocket, Activity, Compass, Users, Calendar } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from '@/components/ui/logo'
@@ -23,12 +23,21 @@ const csmEngines = [
   { icon: Compass, label: 'The Navigator', desc: 'Self-serve client portal', angle: 140 },
 ]
 
+interface TooltipData {
+  label: string
+  desc: string
+  x: number
+  y: number
+}
+
 interface EnginePipelineVisualProps {
   className?: string
 }
 
 export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [tooltip, setTooltip] = useState<TooltipData | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setReducedMotion(
@@ -39,8 +48,27 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
   const innerRadius = 120
   const outerRadius = 180
 
+  const handleMouseEnter = (
+    label: string,
+    desc: string,
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (!containerRef.current) return
+    const containerRect = containerRef.current.getBoundingClientRect()
+    const nodeRect = e.currentTarget.getBoundingClientRect()
+    setTooltip({
+      label,
+      desc,
+      x: nodeRect.left - containerRect.left + nodeRect.width / 2,
+      y: nodeRect.top - containerRect.top,
+    })
+  }
+
+  const handleMouseLeave = () => setTooltip(null)
+
   return (
     <div
+      ref={containerRef}
       className={cn(
         'relative w-full max-w-xl mx-auto aspect-square',
         className
@@ -136,7 +164,7 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
         return (
           <motion.div
             key={engine.label}
-            className="group absolute w-11 h-11 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg z-10 hover:z-50 cursor-pointer"
+            className="absolute w-11 h-11 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg z-10 cursor-pointer"
             style={{
               top: `calc(50% - 22px + ${y}px)`,
               left: `calc(50% - 22px + ${x}px)`,
@@ -147,13 +175,10 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
             transition={{ delay: 0.4 + index * 0.1, duration: 0.4 }}
             animate={reducedMotion ? {} : { y: [0, -4, 0] }}
             whileHover={{ scale: 1.1 }}
+            onMouseEnter={(e) => handleMouseEnter(engine.label, engine.desc, e)}
+            onMouseLeave={handleMouseLeave}
           >
             <EngineIcon className="w-5 h-5 text-primary" />
-            <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[180px] rounded-lg bg-foreground px-3 py-2 text-center opacity-0 scale-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 z-50">
-              <div className="text-[11px] font-semibold text-background">{engine.label}</div>
-              <div className="text-[10px] text-background/70">{engine.desc}</div>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
-            </div>
           </motion.div>
         )
       })}
@@ -168,7 +193,7 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
         return (
           <motion.div
             key={engine.label}
-            className="group absolute w-9 h-9 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center shadow-md z-10 hover:z-50 cursor-pointer"
+            className="absolute w-9 h-9 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center shadow-md z-10 cursor-pointer"
             style={{
               top: `calc(50% - 18px + ${y}px)`,
               left: `calc(50% - 18px + ${x}px)`,
@@ -179,13 +204,10 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
             transition={{ delay: 0.8 + index * 0.08, duration: 0.4 }}
             animate={reducedMotion ? {} : { y: [0, -3, 0] }}
             whileHover={{ scale: 1.15 }}
+            onMouseEnter={(e) => handleMouseEnter(engine.label, engine.desc, e)}
+            onMouseLeave={handleMouseLeave}
           >
             <EngineIcon className="w-4 h-4 text-primary/60" />
-            <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[180px] rounded-lg bg-foreground px-3 py-2 text-center opacity-0 scale-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 z-50">
-              <div className="text-[11px] font-semibold text-background">{engine.label}</div>
-              <div className="text-[10px] text-background/70">{engine.desc}</div>
-              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
-            </div>
           </motion.div>
         )
       })}
@@ -349,6 +371,29 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
           ))}
         </>
       )}
+
+      {/* Top-level tooltip — rendered above everything */}
+      <AnimatePresence>
+        {tooltip && (
+          <motion.div
+            className="absolute pointer-events-none z-[100]"
+            style={{
+              top: tooltip.y - 8,
+              left: tooltip.x,
+            }}
+            initial={{ opacity: 0, y: 4, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 4, x: '-50%' }}
+            transition={{ duration: 0.15 }}
+          >
+            <div className="relative -translate-y-full rounded-lg bg-foreground px-3 py-2 text-center shadow-xl max-w-[200px]">
+              <div className="text-[11px] font-semibold text-background">{tooltip.label}</div>
+              <div className="text-[10px] text-background/70 mt-0.5">{tooltip.desc}</div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
