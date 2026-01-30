@@ -458,7 +458,7 @@ export const engineDetails: Record<string, EngineDetail> = {
     timeSavings: { before: '2-3 hours per week', after: '15 minutes review', savings: '90%' },
     dataSources: [
       'Instantly.ai API (campaign analytics)',
-      'Experiments_Log (historical tests)',
+      'Experiments Log (historical tests)',
       'Master Library (winning elements)',
     ],
     faqs: [
@@ -1091,10 +1091,10 @@ export const engineDetails: Record<string, EngineDetail> = {
     ],
     timeSavings: { before: '15-30 min per question', after: '<1 minute', savings: '95%' },
     dataSources: [
-      'Knowledge_Base (general articles)',
+      'Knowledge Base (general articles)',
       'SOPs (step-by-step procedures)',
       'FAQ (common questions)',
-      'Troubleshooting_Guide (issue resolution)',
+      'Troubleshooting Guide (issue resolution)',
     ],
     faqs: [
       {
@@ -1215,7 +1215,7 @@ export const engineDetails: Record<string, EngineDetail> = {
     ],
     timeSavings: { before: '5-6 hours per client', after: '1-2 hours', savings: '70%' },
     dataSources: [
-      'Google Sheets (Clients, Onboarding_Tracker)',
+      'Google Sheets (Clients & Onboarding Tracker)',
       'Google Drive (client folders)',
       'Email SMTP (welcome, reminders)',
     ],
@@ -1486,7 +1486,7 @@ export const engineDetails: Record<string, EngineDetail> = {
     ],
     timeSavings: { before: '10-15 min per request', after: '1-2 minutes', savings: '85%' },
     dataSources: [
-      'Portal_Requests (request tracking)',
+      'Portal Requests (request tracking)',
       'Slack (CSM notifications)',
       'Email SMTP (client confirmations)',
     ],
