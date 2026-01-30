@@ -1,10 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { AdminSidebar } from '@/components/admin/admin-sidebar'
 import { AdminHeader } from '@/components/admin/admin-header'
 import { ToastProvider } from '@/components/ui/toast'
 import { ErrorBoundary } from '@/components/admin/error-boundary'
+import { defaultTransition } from '@/lib/animations'
 
 export default function AdminLayout({
   children,
@@ -15,7 +17,7 @@ export default function AdminLayout({
 
   return (
     <ToastProvider>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/20">
         <div className="flex">
           <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -25,9 +27,15 @@ export default function AdminLayout({
               onMenuClick={() => setSidebarOpen(true)}
             />
 
-            <main className="flex-1 p-4 lg:p-6">
+            <main className="flex-1 p-4 lg:p-8">
               <ErrorBoundary>
-                {children}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={defaultTransition}
+                >
+                  {children}
+                </motion.div>
               </ErrorBoundary>
             </main>
           </div>

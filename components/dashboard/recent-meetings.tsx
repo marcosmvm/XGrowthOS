@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { Calendar, ArrowRight, Building2, User } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -25,7 +26,7 @@ export function RecentMeetings() {
     .slice(0, 2)
 
   return (
-    <Card>
+    <Card variant="futuristic">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-base font-medium">Meetings</CardTitle>
         <Link
@@ -46,7 +47,7 @@ export function RecentMeetings() {
               {upcomingMeetings.map((meeting) => (
                 <div
                   key={meeting.id}
-                  className="flex items-start gap-3 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+                  className="flex items-start gap-3 p-3 rounded-lg glass-card glow-border-hover transition-all"
                 >
                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     <Calendar className="w-5 h-5 text-primary" />
@@ -80,7 +81,7 @@ export function RecentMeetings() {
               {recentCompleted.map((meeting) => (
                 <div
                   key={meeting.id}
-                  className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 transition-colors"
+                  className="flex items-center justify-between p-2 rounded-lg hover:bg-primary/5 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center">

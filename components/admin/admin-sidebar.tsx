@@ -3,7 +3,8 @@
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Cog, Activity, Settings, X } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { LayoutDashboard, Users, Cog, Activity, Settings, X, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from '@/components/ui/logo'
 
@@ -48,7 +49,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -61,13 +62,16 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
         aria-label="Admin navigation"
         aria-hidden={!isOpen}
         className={cn(
-          'fixed top-0 left-0 z-50 h-full w-64 bg-card border-r border-border transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-0',
+          'fixed top-0 left-0 z-50 h-full w-64 glass-premium border-r border-border/50 transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-0',
           isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full relative">
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent pointer-events-none" />
+
           {/* Logo */}
-          <div className="flex items-center justify-between h-16 px-4 border-b border-border">
+          <div className="relative flex items-center justify-between h-16 px-4">
             <Link href="/admin" className="flex items-center gap-2">
               <Logo variant="lockup" size="sm" showAdminBadge />
             </Link>
@@ -81,45 +85,59 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             </button>
           </div>
 
+          {/* Gradient divider */}
+          <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
           {/* Navigation */}
-          <nav className="flex-1 p-4 space-y-1" aria-label="Main navigation">
-            {navItems.map((item) => {
+          <nav className="relative flex-1 p-4 space-y-1" aria-label="Main navigation">
+            {navItems.map((item, index) => {
               const isActive = pathname === item.href ||
                 (item.href !== '/admin' && pathname.startsWith(item.href))
 
               return (
-                <Link
+                <motion.div
                   key={item.href}
-                  href={item.href}
-                  onClick={onClose}
-                  aria-current={isActive ? 'page' : undefined}
-                  className={cn(
-                    'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
-                    isActive
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  )}
+                  initial={{ opacity: 0, x: -12 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 + 0.1, duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                 >
-                  <item.icon className="w-5 h-5" aria-hidden="true" />
-                  {item.label}
-                </Link>
+                  <Link
+                    href={item.href}
+                    onClick={onClose}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={cn(
+                      'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary',
+                      isActive
+                        ? 'bg-primary/10 text-primary border-l-2 border-primary pl-[10px]'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                    )}
+                  >
+                    <item.icon className="w-5 h-5" aria-hidden="true" />
+                    {item.label}
+                  </Link>
+                </motion.div>
               )
             })}
           </nav>
 
+          {/* Gradient divider */}
+          <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
           {/* Footer */}
-          <div className="p-4 border-t border-border space-y-2">
+          <div className="relative p-4 space-y-2">
             <Link
               href="/dashboard"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors block"
+              className="group flex items-center justify-between text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              View Client Portal
+              <span>View Client Portal</span>
+              <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" aria-hidden="true" />
             </Link>
             <Link
               href="/"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors block"
+              className="group flex items-center justify-between text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
-              Back to website
+              <span>Back to website</span>
+              <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" aria-hidden="true" />
             </Link>
           </div>
         </div>

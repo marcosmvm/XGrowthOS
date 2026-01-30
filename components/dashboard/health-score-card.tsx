@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { TrendingUp, TrendingDown, Minus, AlertTriangle, CheckCircle, ArrowRight } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -22,7 +23,7 @@ export function HealthScoreCard() {
   const scoreColor = status === 'healthy' ? 'stroke-success' : status === 'warning' ? 'stroke-warning' : 'stroke-destructive'
 
   return (
-    <Card>
+    <Card variant="futuristic">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-base font-medium">Health Score</CardTitle>
         <Link
@@ -35,7 +36,7 @@ export function HealthScoreCard() {
       <CardContent>
         {/* Main Score */}
         <div className="flex items-center justify-center py-4">
-          <div className="relative">
+          <motion.div className="relative" animate={{ scale: [1, 1.02, 1] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
             <svg className="w-32 h-32 transform -rotate-90">
               <circle
                 cx="64"
@@ -58,12 +59,12 @@ export function HealthScoreCard() {
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-bold">{overall}</span>
+              <span className="text-4xl font-heading font-bold gradient-text">{overall}</span>
               <span className={cn("text-xs font-medium uppercase", statusColors[status].split(' ')[0])}>
                 {status}
               </span>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Trend */}
@@ -82,36 +83,38 @@ export function HealthScoreCard() {
 
         {/* Risk Signals */}
         {riskSignals.length > 0 && (
-          <div className="mt-4 pt-4 border-t">
+          <div className="mt-4 pt-4 border-t border-border/50">
             <p className="label-text mb-2">
               Attention Items
             </p>
-            {riskSignals.map((signal, idx) => (
-              <div
-                key={idx}
-                className={cn(
-                  "flex items-start gap-2 p-2 rounded-lg text-sm",
-                  signal.severity === 'high' ? 'bg-destructive/10' :
-                  signal.severity === 'medium' ? 'bg-warning/10' : 'bg-info/10'
-                )}
-              >
-                <AlertTriangle className={cn(
-                  "w-4 h-4 mt-0.5 shrink-0",
-                  signal.severity === 'high' ? 'text-destructive' :
-                  signal.severity === 'medium' ? 'text-warning' : 'text-info'
-                )} />
-                <div>
-                  <p className="font-medium">{signal.signal}</p>
-                  <p className="text-xs text-muted-foreground">{signal.description}</p>
+            <div className="space-y-2">
+              {riskSignals.map((signal, idx) => (
+                <div
+                  key={idx}
+                  className={cn(
+                    "flex items-start gap-2 p-2.5 rounded-lg glass-card text-sm",
+                    signal.severity === 'high' ? 'border-l-[3px] border-l-destructive' :
+                    signal.severity === 'medium' ? 'border-l-[3px] border-l-warning' : 'border-l-[3px] border-l-info'
+                  )}
+                >
+                  <AlertTriangle className={cn(
+                    "w-4 h-4 mt-0.5 shrink-0",
+                    signal.severity === 'high' ? 'text-destructive' :
+                    signal.severity === 'medium' ? 'text-warning' : 'text-info'
+                  )} />
+                  <div>
+                    <p className="font-medium">{signal.signal}</p>
+                    <p className="text-xs text-muted-foreground">{signal.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
 
         {riskSignals.length === 0 && (
-          <div className="mt-4 pt-4 border-t">
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-success/10 text-sm">
+          <div className="mt-4 pt-4 border-t border-border/50">
+            <div className="flex items-center gap-2 p-2 rounded-lg glass-card glow-border text-sm">
               <CheckCircle className="w-4 h-4 text-success" />
               <span className="text-success font-medium">
                 All systems operating normally
@@ -131,7 +134,7 @@ function ScoreRow({ label, value }: { label: string; value: number }) {
     <div className="space-y-1">
       <div className="flex items-center justify-between text-sm">
         <span className="text-muted-foreground">{label}</span>
-        <span className="font-medium">{value}%</span>
+        <span className="font-heading font-medium">{value}%</span>
       </div>
       <Progress value={value} className="h-1.5" indicatorClassName={color} />
     </div>
