@@ -1,5 +1,6 @@
 import { Bot, User, Clock, CheckCircle } from 'lucide-react'
 import { Shield, Brain, Search, BarChart3, Settings, AlertTriangle } from 'lucide-react'
+import { Target, Wrench, Rocket, TrendingUp } from 'lucide-react'
 
 export interface Responsibility {
   task: string
@@ -114,36 +115,62 @@ export interface ProcessStep {
   description: string
   type: 'human' | 'ai' | 'hybrid'
   icon: typeof Bot | typeof User
+  dayRange: string
+  deliverables: string[]
 }
 
 export const processSteps: ProcessStep[] = [
   {
     number: 1,
     title: 'Strategy',
-    description: 'We define your ICP, messaging, and value proposition together',
+    description: 'We define your ICP, messaging, and value proposition together.',
     type: 'human',
-    icon: User,
+    icon: Target,
+    dayRange: 'Day 1-3',
+    deliverables: [
+      'Ideal Customer Profile (ICP) defined',
+      'Value proposition and messaging finalized',
+      'Target account list built',
+    ],
   },
   {
     number: 2,
     title: 'Build',
-    description: 'AI generates campaigns, humans review and approve',
+    description: 'AI generates campaigns while humans review and approve every touchpoint.',
     type: 'hybrid',
-    icon: Bot,
+    icon: Wrench,
+    dayRange: 'Day 4-7',
+    deliverables: [
+      'Multi-step email sequences created',
+      'Sending domains warmed and verified',
+      'Campaign copy reviewed and approved',
+    ],
   },
   {
     number: 3,
     title: 'Launch',
-    description: 'Smart automation works 24/7 to optimize and protect deliverability',
+    description: 'Smart automation works around the clock to reach and engage prospects.',
     type: 'ai',
-    icon: Bot,
+    icon: Rocket,
+    dayRange: 'Day 8-10',
+    deliverables: [
+      'Campaigns go live with smart throttling',
+      'Deliverability monitoring activated',
+      'Real-time engagement tracking enabled',
+    ],
   },
   {
     number: 4,
     title: 'Optimize',
-    description: 'AI tests continuously, humans guide strategic pivots',
+    description: 'AI tests continuously while your strategist guides pivots for peak performance.',
     type: 'hybrid',
-    icon: User,
+    icon: TrendingUp,
+    dayRange: 'Day 11-14',
+    deliverables: [
+      'A/B tests running on subject lines and copy',
+      'Performance-based adjustments deployed',
+      'First qualified meetings on your calendar',
+    ],
   },
 ]
 
