@@ -7,20 +7,20 @@ import { cn } from '@/lib/utils'
 import { Logo } from '@/components/ui/logo'
 
 const leadGenEngines = [
-  { icon: Shield, label: 'Guardian', angle: -60 },
-  { icon: Target, label: 'Architect', angle: -20 },
-  { icon: Brain, label: 'Scientist', angle: 20 },
-  { icon: Zap, label: 'Hunter', angle: 60 },
-  { icon: Eye, label: 'Sentinel', angle: 100 },
+  { icon: Shield, label: 'The Guardian', desc: 'Compliance & deliverability protection', angle: -60 },
+  { icon: Target, label: 'The Architect', desc: 'AI-powered campaign design', angle: -20 },
+  { icon: Brain, label: 'The Scientist', desc: 'Continuous A/B test optimization', angle: 20 },
+  { icon: Zap, label: 'The Hunter', desc: 'Expands leads from positive replies', angle: 60 },
+  { icon: Eye, label: 'The Sentinel', desc: 'Identifies anonymous website visitors', angle: 100 },
 ]
 
 const csmEngines = [
-  { icon: BarChart3, label: 'Informant', angle: -75 },
-  { icon: Scale, label: 'Judge', angle: -35 },
-  { icon: BookOpen, label: 'Keeper', angle: 5 },
-  { icon: Rocket, label: 'Launcher', angle: 60 },
-  { icon: Activity, label: 'Monitor', angle: 100 },
-  { icon: Compass, label: 'Navigator', angle: 140 },
+  { icon: BarChart3, label: 'The Informant', desc: 'Automated weekly performance reports', angle: -75 },
+  { icon: Scale, label: 'The Judge', desc: 'Issue detection & auto-healing', angle: -35 },
+  { icon: BookOpen, label: 'The Keeper', desc: 'AI knowledge brain for instant answers', angle: 5 },
+  { icon: Rocket, label: 'The Launcher', desc: 'Automated client onboarding', angle: 60 },
+  { icon: Activity, label: 'The Monitor', desc: 'Churn risk detection & alerts', angle: 100 },
+  { icon: Compass, label: 'The Navigator', desc: 'Self-serve client portal', angle: 140 },
 ]
 
 interface EnginePipelineVisualProps {
@@ -136,7 +136,7 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
         return (
           <motion.div
             key={engine.label}
-            className="absolute w-11 h-11 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg z-10"
+            className="group absolute w-11 h-11 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg z-10 cursor-pointer"
             style={{
               top: `calc(50% - 22px + ${y}px)`,
               left: `calc(50% - 22px + ${x}px)`,
@@ -149,6 +149,11 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
             whileHover={{ scale: 1.1 }}
           >
             <EngineIcon className="w-5 h-5 text-primary" />
+            <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[180px] rounded-lg bg-foreground px-3 py-2 text-center opacity-0 scale-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 z-50">
+              <div className="text-[11px] font-semibold text-background">{engine.label}</div>
+              <div className="text-[10px] text-background/70">{engine.desc}</div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
+            </div>
           </motion.div>
         )
       })}
@@ -163,7 +168,7 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
         return (
           <motion.div
             key={engine.label}
-            className="absolute w-9 h-9 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center shadow-md z-10"
+            className="group absolute w-9 h-9 rounded-lg bg-card/80 border border-primary/15 flex items-center justify-center shadow-md z-10 cursor-pointer"
             style={{
               top: `calc(50% - 18px + ${y}px)`,
               left: `calc(50% - 18px + ${x}px)`,
@@ -176,6 +181,11 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
             whileHover={{ scale: 1.15 }}
           >
             <EngineIcon className="w-4 h-4 text-primary/60" />
+            <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[180px] rounded-lg bg-foreground px-3 py-2 text-center opacity-0 scale-90 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 z-50">
+              <div className="text-[11px] font-semibold text-background">{engine.label}</div>
+              <div className="text-[10px] text-background/70">{engine.desc}</div>
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-foreground" />
+            </div>
           </motion.div>
         )
       })}
