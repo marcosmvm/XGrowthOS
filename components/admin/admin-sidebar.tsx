@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LayoutDashboard, Users, Cog, Activity, Settings, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Logo } from '@/components/ui/logo'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
@@ -68,15 +69,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-4 border-b border-border">
             <Link href="/admin" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center" aria-hidden="true">
-                <span className="text-white font-bold text-sm">XG</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-heading font-semibold text-lg leading-tight">XGrowthOS</span>
-                <span className="text-[10px] font-medium text-primary bg-primary/10 px-1.5 py-0.5 rounded w-fit">
-                  ADMIN
-                </span>
-              </div>
+              <Logo variant="lockup" size="sm" showAdminBadge />
             </Link>
             <button
               ref={closeButtonRef}

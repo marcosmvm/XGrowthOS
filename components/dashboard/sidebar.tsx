@@ -17,6 +17,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { IconWrapper } from '@/components/ui/icon-wrapper'
+import { Logo } from '@/components/ui/logo'
 
 interface NavItem {
   href: string
@@ -66,10 +67,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-4 border-b border-border">
             <Link href="/dashboard" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-white font-bold text-sm">XG</span>
-              </div>
-              <span className="font-heading font-semibold text-lg">XGrowthOS</span>
+              <Logo variant="lockup" size="sm" />
             </Link>
             <button
               onClick={onClose}

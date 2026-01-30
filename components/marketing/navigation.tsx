@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Logo } from '@/components/ui/logo'
 
 const navLinks = [
   { href: '/how-it-works', label: 'How It Works' },
@@ -21,10 +22,7 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-white font-bold text-sm">XG</span>
-            </div>
-            <span className="font-heading font-semibold text-lg">XGrowthOS</span>
+            <Logo variant="lockup" size="sm" />
           </Link>
 
           {/* Desktop Navigation */}

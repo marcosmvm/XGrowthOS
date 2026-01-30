@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Shield, Target, Brain, Zap, Eye, Users, Calendar } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Logo } from '@/components/ui/logo'
 
 const engines = [
   { icon: Shield, label: 'Guardian', angle: -60 },
@@ -102,11 +103,11 @@ export function EnginePipelineVisual({ className }: EnginePipelineVisualProps) {
         transition={{ delay: 0.2, duration: 0.6 }}
       >
         <motion.div
-          className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-xl shadow-primary/15"
+          className="w-20 h-20 rounded-2xl shadow-xl shadow-primary/15"
           animate={reducedMotion ? {} : { scale: [1, 1.02, 1] }}
           transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <span className="text-white font-heading font-bold text-lg">XG</span>
+          <Logo variant="icon" size="xl" />
         </motion.div>
       </motion.div>
 

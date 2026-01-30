@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { Logo } from '@/components/ui/logo'
 
 interface AuthCardProps {
   children: React.ReactNode
@@ -20,10 +21,7 @@ export function AuthCard({ children, title, description }: AuthCardProps) {
         className="mb-8"
       >
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-white font-bold text-lg">X</span>
-          </div>
-          <span className="font-heading font-bold text-xl">GrowthOS</span>
+          <Logo variant="lockup" size="md" />
         </Link>
       </motion.div>
 

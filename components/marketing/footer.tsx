@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Linkedin, Twitter } from 'lucide-react'
+import { Logo } from '@/components/ui/logo'
 
 const footerLinks = {
   platform: [
@@ -30,10 +31,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-white font-bold text-sm">XG</span>
-              </div>
-              <span className="font-heading font-semibold">XGrowthOS</span>
+              <Logo variant="lockup" size="sm" />
             </Link>
             <p className="text-muted-foreground text-sm mb-4">
               11 AI Engines. Qualified Meetings. On Autopilot.
