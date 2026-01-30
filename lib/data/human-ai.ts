@@ -1,9 +1,56 @@
 import { Bot, User, Clock, CheckCircle } from 'lucide-react'
+import { Shield, Brain, Search, BarChart3, Settings, AlertTriangle } from 'lucide-react'
 
 export interface Responsibility {
   task: string
   description?: string
 }
+
+export interface CollaborationRow {
+  area: string
+  icon: typeof Shield
+  ai: { task: string; detail: string }
+  human: { task: string; detail: string }
+}
+
+export const collaborationRows: CollaborationRow[] = [
+  {
+    area: 'Deliverability',
+    icon: Shield,
+    ai: { task: 'Domain health monitoring', detail: 'Checks blacklists, spam scores & reputation every 4 hours' },
+    human: { task: 'Escalation handling', detail: 'Human intervention when critical issues arise' },
+  },
+  {
+    area: 'Campaign Copy',
+    icon: Brain,
+    ai: { task: 'A/B testing & optimization', detail: 'Automatic variant testing on subject lines, copy & timing' },
+    human: { task: 'Copy review & approval', detail: 'Every campaign reviewed by your CSM before launch' },
+  },
+  {
+    area: 'Targeting',
+    icon: Search,
+    ai: { task: 'Lead dedup & DNC checking', detail: 'Real-time verification before every email send' },
+    human: { task: 'ICP & strategy definition', detail: 'Expert guidance on who to target and positioning' },
+  },
+  {
+    area: 'Performance',
+    icon: BarChart3,
+    ai: { task: 'Automated weekly reports', detail: 'Reports generated and delivered automatically' },
+    human: { task: 'Strategic pivots', detail: 'Adjusting strategy based on market response' },
+  },
+  {
+    area: 'Execution',
+    icon: Settings,
+    ai: { task: 'Campaign pacing & throttling', detail: 'Smart send scheduling to maximize deliverability' },
+    human: { task: 'Value proposition refinement', detail: 'Crafting messaging that resonates with your market' },
+  },
+  {
+    area: 'Ongoing Success',
+    icon: AlertTriangle,
+    ai: { task: 'Blacklist & health monitoring', detail: 'Instant alerts if any sending domain is flagged' },
+    human: { task: 'Dedicated CSM support', detail: 'Ongoing optimization and success management' },
+  },
+]
 
 export const aiResponsibilities: Responsibility[] = [
   {
