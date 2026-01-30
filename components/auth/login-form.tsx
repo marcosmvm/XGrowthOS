@@ -46,7 +46,7 @@ export function LoginForm() {
         )}
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
             Email
           </label>
           <input
@@ -55,13 +55,13 @@ export function LoginForm() {
             type="email"
             required
             autoComplete="email"
-            className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
+            className="w-full px-4 py-3 rounded-lg border border-border/80 bg-muted/50 text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
             placeholder="you@company.com"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
             Password
           </label>
           <div className="relative">
@@ -71,7 +71,7 @@ export function LoginForm() {
               type={showPassword ? 'text' : 'password'}
               required
               autoComplete="current-password"
-              className="w-full px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors pr-12"
+              className="w-full px-4 py-3 rounded-lg border border-border/80 bg-muted/50 text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors pr-12"
               placeholder="Enter your password"
             />
             <button
@@ -108,7 +108,7 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 rounded-lg font-semibold text-lg hover:opacity-90 transition-all shadow-lg shadow-primary/15 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {isLoading ? (
             <>

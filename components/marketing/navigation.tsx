@@ -38,13 +38,13 @@ export function Navigation() {
             ))}
             <Link
               href="/login"
-              className="px-4 py-2 rounded-lg font-medium border border-border hover:bg-muted transition-colors"
+              className="px-4 py-2 rounded-lg font-medium border border-border hover:bg-muted hover:border-primary/30 transition-all"
             >
               Login
             </Link>
             <Link
               href="/register"
-              className="bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors"
+              className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-all shadow-sm shadow-primary/10"
             >
               Get Started
             </Link>
@@ -84,14 +84,14 @@ export function Navigation() {
             ))}
             <Link
               href="/login"
-              className="mx-2 mt-2 px-4 py-2 rounded-lg font-medium border border-border hover:bg-muted transition-colors text-center"
+              className="mx-2 mt-2 px-4 py-2 rounded-lg font-medium border border-border hover:bg-muted hover:border-primary/30 transition-all text-center"
               onClick={() => setMobileMenuOpen(false)}
             >
               Login
             </Link>
             <Link
               href="/register"
-              className="mx-2 mt-2 bg-primary text-white px-4 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors text-center"
+              className="mx-2 mt-2 bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-all shadow-sm shadow-primary/10 text-center"
               onClick={() => setMobileMenuOpen(false)}
             >
               Get Started
