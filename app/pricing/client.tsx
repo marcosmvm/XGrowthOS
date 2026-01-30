@@ -10,10 +10,10 @@ import { FAQAccordion } from '@/components/marketing/faq-accordion'
 import { CTASection } from '@/components/marketing/cta-section'
 import { PricingPhilosophy } from '@/components/marketing/pricing-philosophy'
 import { PilotPricingHero } from '@/components/marketing/pilot-pricing-hero'
-import { FutureTiersPreview } from '@/components/marketing/future-tiers-preview'
+
 import { SubtleBackground } from '@/components/backgrounds'
 
-import { pilotTier, futureTiers, includedFeatures, guarantee } from '@/lib/data/pricing'
+import { pilotTier, includedFeatures, guarantee } from '@/lib/data/pricing'
 import { pricingFAQs } from '@/lib/data/content'
 
 export default function PricingClient() {
@@ -140,9 +140,6 @@ export default function PricingClient() {
             </motion.div>
           </div>
         </section>
-
-        {/* Future Pricing Tiers */}
-        <FutureTiersPreview tiers={futureTiers} className="py-20" />
 
         {/* FAQ Section */}
         <section className="py-20 section-alt-2">
