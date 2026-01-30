@@ -1,10 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { LucideIcon, ArrowLeft } from 'lucide-react'
+import { LucideIcon, ArrowLeft, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 
 interface EngineStat {
   value: string
@@ -35,6 +34,7 @@ export function EngineHero({
 }: EngineHeroProps) {
   const suiteName = suite === 'lead-gen' ? 'Lead Generation Suite' : 'CSM Automation Suite'
   const suiteColor = suite === 'lead-gen' ? 'text-primary' : 'text-secondary'
+  const suiteBg = suite === 'lead-gen' ? 'bg-primary/10 border-primary/20' : 'bg-secondary/10 border-secondary/20'
 
   return (
     <section className={cn('pt-32 pb-20 px-4 sm:px-6 lg:px-8', className)}>
@@ -61,36 +61,56 @@ export function EngineHero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            {/* Suite badge */}
-            <span className={cn('inline-block px-3 py-1 mb-4 text-sm font-medium rounded-full bg-primary/10', suiteColor)}>
+            {/* Suite badge with pulse dot */}
+            <span className={cn(
+              'inline-flex items-center gap-2 px-4 py-1.5 mb-6 text-sm font-medium rounded-full border',
+              suiteBg,
+              suiteColor
+            )}>
+              <span className={cn(
+                'w-1.5 h-1.5 rounded-full animate-pulse',
+                suite === 'lead-gen' ? 'bg-primary' : 'bg-secondary'
+              )} />
               {suiteName}
             </span>
 
             {/* Engine letter + name */}
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/20 flex items-center justify-center">
-                <Icon className="w-8 h-8 text-primary" />
+              <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-lg shadow-primary/20">
+                <Icon className="w-8 h-8 text-white" />
               </div>
               <div>
-                <span className="text-sm text-muted-foreground font-medium">Engine {letter}</span>
-                <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold">{name}</h1>
+                <span className="label-text">Engine {letter}</span>
+                <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                  <span className="gradient-text">{name}</span>
+                </h1>
               </div>
             </div>
 
             {/* Tagline */}
-            <p className="text-xl text-primary font-medium mb-4">{tagline}</p>
+            <p className="text-xl text-primary font-medium mb-2">{tagline}</p>
+
+            {/* Gradient underline */}
+            <div className="w-16 h-1 bg-gradient-to-r from-primary via-secondary/60 to-primary rounded-full mb-6" />
 
             {/* Description */}
-            <p className="text-lg text-muted-foreground mb-8 max-w-xl">{description}</p>
+            <p className="text-lg text-muted-foreground mb-8 max-w-xl leading-relaxed">{description}</p>
 
-            {/* CTA */}
+            {/* CTA - gradient primary button */}
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" asChild>
-                <Link href="/book-demo">See It In Action</Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild>
-                <Link href="/pricing">View Pricing</Link>
-              </Button>
+              <Link
+                href="/book-demo"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-lg font-semibold text-lg hover:opacity-90 transition-all shadow-lg shadow-primary/15"
+              >
+                See It In Action
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center justify-center gap-2 border border-border px-8 py-4 rounded-lg font-semibold text-lg hover:bg-muted transition-colors"
+              >
+                View Pricing
+              </Link>
             </div>
           </motion.div>
 
@@ -104,11 +124,14 @@ export function EngineHero({
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                className="bg-card border border-border rounded-xl p-6 text-center"
+                className="relative bg-card border border-border rounded-xl p-6 text-center overflow-hidden hover:border-primary/30 transition-all"
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
+                whileHover={{ y: -2 }}
               >
+                {/* Gradient top accent */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary via-secondary/60 to-primary" />
                 <div className="text-2xl sm:text-3xl font-heading font-bold text-primary">
                   {stat.value}
                 </div>

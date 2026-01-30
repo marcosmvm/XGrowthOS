@@ -6,13 +6,13 @@ import Link from 'next/link'
 
 import { Navigation } from '@/components/marketing/navigation'
 import { Footer } from '@/components/marketing/footer'
-import { HeroBackground } from '@/components/backgrounds'
+import { SubtleBackground } from '@/components/backgrounds'
 import { SectionHeading } from '@/components/marketing/section-heading'
 import { EngineCard } from '@/components/marketing/engine-card'
 import { StatsGrid } from '@/components/marketing/stats-grid'
 import { Timeline } from '@/components/marketing/timeline'
 import { CTASection } from '@/components/marketing/cta-section'
-import { ProcessFlow } from '@/components/marketing/process-flow'
+import { ProcessSteps } from '@/components/marketing/process-steps'
 import { HumanAIComparison } from '@/components/marketing/human-ai-comparison'
 import { ComplianceDeepDive } from '@/components/marketing/compliance-deep-dive'
 
@@ -25,7 +25,7 @@ import { heroStatsEnhanced } from '@/lib/data/content'
 
 export default function HowItWorksClient() {
   return (
-    <HeroBackground>
+    <SubtleBackground showOrb>
       <main className="min-h-screen">
         <Navigation />
 
@@ -51,11 +51,33 @@ export default function HowItWorksClient() {
                 <br />
                 <span className="text-foreground">Autonomously, 24/7</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
+              <div className="flex justify-center mb-6">
+                <div className="w-16 h-1 bg-gradient-to-r from-primary via-secondary/60 to-primary rounded-full" />
+              </div>
+              <p className="text-xl text-muted-foreground mb-12 max-w-2xl mx-auto">
                 Unlike traditional agencies or basic email tools, XGrowthOS deploys specialized
                 AI engines with human strategic oversight—handling every aspect of B2B lead generation
                 from compliance to campaign optimization.
               </p>
+              <motion.div
+                className="flex flex-wrap justify-center gap-10 sm:gap-16 mb-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {[
+                  { stat: '11', label: 'AI Engines' },
+                  { stat: '24/7', label: 'Autonomous Operation' },
+                  { stat: '14-Day', label: 'Launch Timeline' },
+                ].map((item) => (
+                  <div key={item.label} className="text-center">
+                    <div className="text-3xl sm:text-4xl font-heading font-bold text-primary">
+                      {item.stat}
+                    </div>
+                    <div className="text-sm text-muted-foreground mt-1">{item.label}</div>
+                  </div>
+                ))}
+              </motion.div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/book-demo"
@@ -85,19 +107,17 @@ export default function HowItWorksClient() {
         </div>
 
         {/* Process Flow */}
-        <ProcessFlow className="py-20 section-alt" />
+        <ProcessSteps className="py-20 section-alt-2" />
 
         {/* Performance Preview Stats */}
         <section className="py-12 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            <motion.p
-              className="text-center text-sm uppercase tracking-widest text-muted-foreground mb-8"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              What These Engines Do
-            </motion.p>
+            <SectionHeading
+              eyebrow="BY THE NUMBERS"
+              title="What These Engines Deliver"
+              highlight="Deliver"
+              subtitle="Platform capabilities at a glance."
+            />
             <HeroStatsBar stats={heroStatsEnhanced} />
           </div>
         </section>
@@ -106,10 +126,25 @@ export default function HowItWorksClient() {
         <section className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
+              eyebrow="LEAD GENERATION"
               badge="Lead Generation Suite"
               title="5 Engines for Pipeline Growth"
+              highlight="Pipeline Growth"
               subtitle="These engines work together to identify, engage, and convert your ideal prospects into qualified meetings."
             />
+
+            <motion.div
+              className="mb-8 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border border-primary/20 rounded-xl px-6 py-4 text-center"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Engines A–E</span>{' '}
+                handle prospecting, compliance, optimization, expansion, and visitor intelligence.
+              </p>
+            </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {leadGenEngines.map((engine, index) => (
@@ -128,13 +163,28 @@ export default function HowItWorksClient() {
         </section>
 
         {/* CSM Automation Engines */}
-        <section className="py-20 section-alt">
+        <section className="py-20 section-alt-2">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
+              eyebrow="CLIENT SUCCESS"
               badge="CSM Automation Suite"
               title="6 Engines for Client Success"
+              highlight="Client Success"
               subtitle="Our automation engines enable one success manager to handle 20-25 clients instead of 10-12, while delivering proactive, not reactive, service."
             />
+
+            <motion.div
+              className="mb-8 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 border border-primary/20 rounded-xl px-6 py-4 text-center"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+            >
+              <p className="text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">Engines F–K</span>{' '}
+                automate reporting, issue detection, knowledge management, onboarding, churn prevention, and self-serve support.
+              </p>
+            </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {csmEngines.map((engine, index) => (
@@ -156,11 +206,13 @@ export default function HowItWorksClient() {
         <HumanAIComparison className="py-20" />
 
         {/* Onboarding Timeline */}
-        <section className="py-20 section-alt">
+        <section className="py-20 section-alt-2">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
+              eyebrow="ONBOARDING"
               badge="14-Day Onboarding"
               title="From Signup to First Meetings"
+              highlight="First Meetings"
               subtitle="Our streamlined onboarding process gets you up and running quickly."
             />
 
@@ -174,11 +226,13 @@ export default function HowItWorksClient() {
         <ComplianceDeepDive className="py-20" />
 
         {/* Performance Metrics */}
-        <section className="py-20 section-alt">
+        <section className="py-20 section-alt-2">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <SectionHeading
+              eyebrow="PERFORMANCE"
               badge="Performance Targets"
               title="What Our Engines Optimize Toward"
+              highlight="Optimize Toward"
               subtitle="Our AI engines are designed to continuously optimize toward these performance targets."
             />
 
@@ -210,11 +264,12 @@ export default function HowItWorksClient() {
           primaryCta={{ href: '/book-demo', label: 'Book Your Discovery Call' }}
           secondaryCta={{ href: '/pricing', label: 'View Pricing' }}
           showTrustLine
-          className="section-alt"
+          urgencyText="Limited founding partner spots available"
+          className="section-alt-2"
         />
 
         <Footer />
       </main>
-    </HeroBackground>
+    </SubtleBackground>
   )
 }

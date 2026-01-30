@@ -79,31 +79,47 @@ export function EngineIllustration({ slug, className }: EngineIllustrationProps)
       {/* Background gradient circle */}
       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 via-primary/5 to-transparent" />
 
-      {/* Animated rings */}
+      {/* Radial glow behind center */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.12) 0%, transparent 50%)',
+        }}
+      />
+
+      {/* Animated rings with gradient borders */}
       <motion.div
         className="absolute inset-4 rounded-full border border-primary/20"
-        animate={{ scale: [1, 1.05, 1] }}
+        animate={{ scale: [1, 1.05, 1], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
         className="absolute inset-8 rounded-full border border-primary/15"
-        animate={{ scale: [1, 1.03, 1] }}
+        animate={{ scale: [1, 1.03, 1], opacity: [0.4, 0.7, 0.4] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
       />
       <motion.div
-        className="absolute inset-12 rounded-full border border-primary/10"
-        animate={{ scale: [1, 1.02, 1] }}
+        className="absolute inset-12 rounded-full border border-secondary/10"
+        animate={{ scale: [1, 1.02, 1], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       />
 
-      {/* Center primary icon */}
+      {/* Center primary icon with glow */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
         animate={{ rotate: [0, 5, -5, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-xl shadow-primary/15">
-          <PrimaryIcon className="w-12 h-12 text-white" />
+        <div className="relative">
+          {/* Glow pulse behind icon */}
+          <motion.div
+            className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-primary/30 to-secondary/20 blur-xl"
+            animate={{ opacity: [0.4, 0.7, 0.4], scale: [0.95, 1.05, 0.95] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <div className="relative w-24 h-24 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-xl shadow-primary/25">
+            <PrimaryIcon className="w-12 h-12 text-white" />
+          </div>
         </div>
       </motion.div>
 
@@ -115,7 +131,7 @@ export function EngineIllustration({ slug, className }: EngineIllustrationProps)
         return (
           <motion.div
             key={index}
-            className="absolute w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg"
+            className="absolute w-12 h-12 rounded-xl bg-card border border-border flex items-center justify-center shadow-lg hover:border-primary/30 transition-colors"
             style={{
               top: `calc(50% - 24px + ${Math.sin((angle * Math.PI) / 180) * 120}px)`,
               left: `calc(50% - 24px + ${Math.cos((angle * Math.PI) / 180) * 120}px)`,
@@ -127,14 +143,14 @@ export function EngineIllustration({ slug, className }: EngineIllustrationProps)
             animate={{
               y: [0, -5, 0],
             }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.15, boxShadow: '0 0 20px hsl(var(--primary) / 0.2)' }}
           >
             <SupportIcon className="w-6 h-6 text-primary" />
           </motion.div>
         )
       })}
 
-      {/* Connection lines */}
+      {/* Connection lines with dash animation */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none">
         {config.supporting.map((_, index) => {
           const angle = (index * 360) / config.supporting.length
@@ -150,7 +166,8 @@ export function EngineIllustration({ slug, className }: EngineIllustrationProps)
               y2={`${y2}%`}
               stroke="currentColor"
               strokeWidth="1"
-              className="text-primary/20"
+              strokeDasharray="4 4"
+              className="text-primary/25"
               initial={{ pathLength: 0 }}
               whileInView={{ pathLength: 1 }}
               viewport={{ once: true }}

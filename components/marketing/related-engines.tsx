@@ -23,6 +23,9 @@ export function RelatedEngines({ relatedSlugs, className }: RelatedEnginesProps)
       {relatedEngines.map((engine, index) => {
         const Icon = engine.icon
         const suiteBadge = engine.suite === 'lead-gen' ? 'Lead Gen' : 'CSM'
+        const suiteColor = engine.suite === 'lead-gen'
+          ? 'text-primary bg-primary/10 border-primary/20'
+          : 'text-secondary bg-secondary/10 border-secondary/20'
 
         return (
           <motion.div
@@ -31,32 +34,37 @@ export function RelatedEngines({ relatedSlugs, className }: RelatedEnginesProps)
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
+            whileHover={{ y: -4 }}
           >
             <Link
               href={`/engines/${engine.slug}`}
-              className="group block bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all hover:shadow-lg"
+              className="group block relative bg-card border border-border rounded-xl overflow-hidden hover:border-primary/40 transition-all hover:shadow-lg hover:shadow-primary/5"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-primary" />
+              {/* Gradient top border on hover */}
+              <div className="h-0.5 bg-gradient-to-r from-primary via-secondary/60 to-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-primary group-hover:to-secondary transition-all">
+                    <Icon className="w-6 h-6 text-primary group-hover:text-white transition-colors" />
+                  </div>
+                  <span className={cn('text-xs px-2.5 py-1 rounded-full border font-medium', suiteColor)}>
+                    {suiteBadge}
+                  </span>
                 </div>
-                <span className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground">
-                  {suiteBadge}
+
+                <h4 className="font-heading font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
+                  {engine.name}
+                </h4>
+                <p className="text-sm text-primary font-medium mb-2">{engine.tagline}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                  {engine.heroDescription}
+                </p>
+
+                <span className="inline-flex items-center gap-1 text-sm text-primary font-medium group-hover:gap-2 transition-all">
+                  Learn more
+                  <ArrowRight className="w-4 h-4" />
                 </span>
               </div>
-
-              <h4 className="font-heading font-semibold text-lg mb-1 group-hover:text-primary transition-colors">
-                {engine.name}
-              </h4>
-              <p className="text-sm text-primary font-medium mb-2">{engine.tagline}</p>
-              <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
-                {engine.heroDescription}
-              </p>
-
-              <span className="inline-flex items-center gap-1 text-sm text-primary font-medium group-hover:gap-2 transition-all">
-                Learn more
-                <ArrowRight className="w-4 h-4" />
-              </span>
             </Link>
           </motion.div>
         )
